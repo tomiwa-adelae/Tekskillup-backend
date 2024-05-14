@@ -51,13 +51,11 @@ const MobileSideBar = () => {
 						</Link>
 						<Separator />
 					</nav>
-					<Button className="mt-6" asChild>
-						<Link
-							className="transition ease-in-out bg-gray-50 text-green-400 font-semibold text-base py-6 px-8 hover:bg-gray-200 w-full"
-							href="/register"
-						>
-							Get started
-						</Link>
+					<Button
+						className="mt-6 w-full text-green-400 text-base font-semibold transition ease-in-out bg-gray-100 hover:bg-gray-200"
+						asChild
+					>
+						<Link href="/register">Get started</Link>
 					</Button>
 				</SheetContent>
 			</Sheet>
