@@ -1,8 +1,14 @@
 import Image from "next/image";
 import React from "react";
 
+interface WhysProps {
+	img: string;
+	title: string;
+	details: string;
+}
+
 const WhyTekskillup = () => {
-	const whys = [
+	const whys: WhysProps[] = [
 		{
 			img: "/pace-img.png",
 			title: "Go at your pace",
@@ -39,26 +45,37 @@ const WhyTekskillup = () => {
 				</p>
 
 				<div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
-					{whys.map((why, index) => (
-						<div
-							key={index}
-							className="flex flex-col items-center justify-center bg-gray-100 py-8 px-4 rounded-md"
-						>
-							<Image
-								src={why.img}
-								alt={why.title}
-								height={1000}
-								width={1000}
-								className="w-20"
-							/>
-							<div>
-								<h4 className="text-green-400 mt-3 text-lg font-medium">
-									{why.title}
-								</h4>
-								<p className="text-xs mt-4">{why.details}</p>
+					{whys.map(
+						(
+							why: {
+								img: string;
+								title: string;
+								details: string;
+							},
+							index: number
+						) => (
+							<div
+								key={index}
+								className="flex flex-col items-center justify-center bg-gray-100 py-8 px-4 rounded-md"
+							>
+								<Image
+									src={why.img}
+									alt={why.title}
+									height={1000}
+									width={1000}
+									className="w-20"
+								/>
+								<div>
+									<h4 className="text-green-400 mt-3 text-lg font-medium">
+										{why.title}
+									</h4>
+									<p className="text-xs mt-4">
+										{why.details}
+									</p>
+								</div>
 							</div>
-						</div>
-					))}
+						)
+					)}
 				</div>
 			</div>
 		</div>

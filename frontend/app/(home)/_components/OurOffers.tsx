@@ -5,14 +5,14 @@ import CoursesCarousel from "./CoursesCarousel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-interface CourseProps {
+interface CoursesProps {
 	image: string;
 	title: string;
 	description: string;
 }
 
 const OurOffers = () => {
-	const courses: any = [
+	const courses: CoursesProps[] = [
 		{
 			image: "/pace-img.png",
 			title: "Go at your pace",

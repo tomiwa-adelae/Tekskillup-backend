@@ -1,17 +1,16 @@
 import React from "react";
-import CompaniesCarousel from "./CompaniesCarousel";
 
-const WhereGraduatesWorks = () => {
+const OurFacilities = () => {
 	return (
 		<div className="bg-white">
-			<div className="container pt-16 ">
+			<div className="container pt-16">
 				<div className="text-center flex items-center justify-center flex-col lg:flex-row lg:justify-between lg:text-left lg:gap-6">
 					<div className="flex-1">
 						<h5 className="uppercase text-xs lg:text-sm">
-							Life after training
+							What to expect
 						</h5>
 						<h3 className="text-green-400 my-5 text-2xl lg:text-3xl">
-							Where our graduates work
+							Our facilities
 						</h3>
 					</div>
 					<div className="flex-1">
@@ -24,10 +23,10 @@ const WhereGraduatesWorks = () => {
 						</p>
 					</div>
 				</div>
-				<CompaniesCarousel />
+				{/* <CompaniesCarousel /> */}
 			</div>
 		</div>
 	);
 };
 
-export default WhereGraduatesWorks;
+export default OurFacilities;
