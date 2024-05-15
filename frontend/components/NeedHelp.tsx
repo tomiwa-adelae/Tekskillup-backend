@@ -22,7 +22,7 @@ const NeedHelp = () => {
 						nulla hic culpa aspernatur.
 					</p>
 					<Button
-						className="bg-transparent outline outline-2 outline-white py-8 px-8 uppercase"
+						className="bg-transparent outline outline-2 outline-white py-8 px-8 uppercase font-semibold"
 						asChild
 					>
 						<Link href="/contact">Get in touch</Link>

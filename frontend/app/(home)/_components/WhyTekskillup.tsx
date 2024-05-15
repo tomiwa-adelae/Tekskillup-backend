@@ -63,7 +63,7 @@ const WhyTekskillup = () => {
 									alt={why.title}
 									height={1000}
 									width={1000}
-									className="w-20"
+									className="w-24 lg:w-36"
 								/>
 								<div>
 									<h4 className="text-green-400 mt-3 text-lg font-medium">

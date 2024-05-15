@@ -75,7 +75,7 @@ const OurOffers = () => {
 
 					<CoursesCarousel courses={courses} />
 					<Button
-						className="bg-green-400 px-12 py-8 text-lg mt-8 uppercase shadow"
+						className="bg-green-400 font-semibold px-12 py-8 mt-8 uppercase shadow"
 						asChild
 					>
 						<Link href="/our-courses">View all courses</Link>

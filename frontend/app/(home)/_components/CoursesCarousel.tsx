@@ -11,12 +11,6 @@ import Link from "next/link";
 
 import Autoplay from "embla-carousel-autoplay";
 
-interface CoursesProps {
-	image: string;
-	title: string;
-	description: string;
-}
-
 const CoursesCarousel = ({ courses }: any) => {
 	const plugin = React.useRef(
 		Autoplay({ delay: 5000, stopOnInteraction: true })

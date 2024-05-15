@@ -32,7 +32,7 @@ const StartToday = () => {
 					fugit beatae ipsum reiciendis non? At, vitae?
 				</p>
 				<Button
-					className="bg-green-400 uppercase px-12 py-8 text-lg mt-8 shadow"
+					className="bg-green-400 uppercase px-12 py-8 font-semibold mt-8 shadow"
 					asChild
 				>
 					<Link href="/our-courses">Get started</Link>

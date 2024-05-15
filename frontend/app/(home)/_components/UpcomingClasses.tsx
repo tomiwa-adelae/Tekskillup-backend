@@ -44,7 +44,7 @@ const UpcomingClasses = () => {
 						</h6>
 					</div>
 					<Button
-						className="bg-green-400 px-12 py-8 text-lg mt-8 shadow uppercase"
+						className="bg-green-400 px-12 py-8 font-semibold mt-8 shadow uppercase"
 						asChild
 					>
 						<Link href="/">Enroll now</Link>
