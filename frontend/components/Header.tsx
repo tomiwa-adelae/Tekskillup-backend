@@ -17,7 +17,7 @@ const Header = () => {
 						className="w-36"
 					/>
 				</Link>
-				<nav className="hidden lg:flex items-center justify-center gap-5 font-semibold uppercase text-xs text-white">
+				<nav className="hidden lg:flex items-center justify-center gap-6 font-semibold uppercase text-xs text-white">
 					<Link
 						className="transition ease-in-out hover:text-gray-100"
 						href="/about"

@@ -54,7 +54,7 @@ const CoursesCarousel = ({ courses }: any) => {
 									alt={course.title}
 									height={1000}
 									width={1000}
-									className="w-36"
+									className="w-24 lg:w-36"
 								/>
 								<div>
 									<h4 className="text-green-400 mt-3 text-lg font-medium">
@@ -65,7 +65,7 @@ const CoursesCarousel = ({ courses }: any) => {
 									</p>
 								</div>
 								<Button
-									className="transition ease-in-out bg-transparent mt-6 px-6 outline outline-1 outline-green-400 text-green-400 hover:bg-green-400 hover:text-white"
+									className="transition ease-in-out bg-transparent mt-6 px-6 outline outline-1 outline-green-400 text-green-400 hover:bg-green-400 uppercase hover:text-white"
 									asChild
 								>
 									<Link href="/">View course</Link>

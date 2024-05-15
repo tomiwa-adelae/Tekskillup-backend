@@ -1,4 +1,5 @@
 import React from "react";
+import { FaciltiesImages } from "./FacilitiesImages";
 
 const OurFacilities = () => {
 	return (
@@ -23,7 +24,7 @@ const OurFacilities = () => {
 						</p>
 					</div>
 				</div>
-				{/* <CompaniesCarousel /> */}
+				<FaciltiesImages />
 			</div>
 		</div>
 	);

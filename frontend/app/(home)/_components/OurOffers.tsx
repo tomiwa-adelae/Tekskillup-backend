@@ -67,7 +67,7 @@ const OurOffers = () => {
 					<h3 className="text-green-400 my-5 text-2xl lg:text-3xl">
 						Certified Tech Training Courses
 					</h3>
-					<p className="text-sm mb-8 lg:w-5/6 mx-auto">
+					<p className="text-xs lg:text-sm mb-8 lg:w-5/6 mx-auto">
 						Lorem, ipsum dolor sit amet consectetur adipisicing
 						elit. Aperiam minima eligendi consectetur libero
 						molestias corporis explicabo magni adipisci placeat at.
@@ -75,7 +75,7 @@ const OurOffers = () => {
 
 					<CoursesCarousel courses={courses} />
 					<Button
-						className="bg-green-400 px-12 py-8 text-lg mt-8 shadow"
+						className="bg-green-400 px-12 py-8 text-lg mt-8 uppercase shadow"
 						asChild
 					>
 						<Link href="/our-courses">View all courses</Link>

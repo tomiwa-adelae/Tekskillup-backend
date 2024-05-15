@@ -15,7 +15,7 @@ const WhereGraduatesWorks = () => {
 						</h3>
 					</div>
 					<div className="flex-1">
-						<p className="text-sm">
+						<p className="text-xs lg:text-sm">
 							Lorem ipsum dolor sit amet consectetur adipisicing
 							elit. Dicta iusto rerum dolore recusandae ducimus
 							iure. Odio hic dolor architecto dolorem eum porro

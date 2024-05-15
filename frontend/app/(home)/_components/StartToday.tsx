@@ -6,14 +6,16 @@ import React from "react";
 const StartToday = () => {
 	return (
 		<div className="container flex flex-col lg:flex-row items-start justify-center gap-8 pb-16">
-			<Image
-				src={"/speaker-two.jpg"}
-				alt="Speakers"
-				width={1000}
-				height={1000}
-				className="w-full lg:w-2/5 rounded-2xl"
-			/>
-			<div>
+			<div className="flex-1">
+				<Image
+					src={"/speaker-two.jpg"}
+					alt="Speakers"
+					width={1000}
+					height={1000}
+					className="aspect-video rounded-2xl object-cover"
+				/>
+			</div>
+			<div className="flex-1">
 				<h5 className="uppercase text-xs lg:text-sm">
 					Start your course today
 				</h5>
@@ -21,7 +23,7 @@ const StartToday = () => {
 					Acquire a Tech skill to transcend your current earning
 					status
 				</h3>
-				<p className="text-small">
+				<p className="text-xs lg:text-sm">
 					Lorem ipsum dolor sit amet consectetur adipisicing elit.
 					Quaerat, deserunt molestiae amet incidunt dolorem fuga eum
 					obcaecati eaque neque. Doloremque quia earum odit excepturi
@@ -30,7 +32,7 @@ const StartToday = () => {
 					fugit beatae ipsum reiciendis non? At, vitae?
 				</p>
 				<Button
-					className="bg-green-400 px-12 py-8 text-lg mt-8 shadow"
+					className="bg-green-400 uppercase px-12 py-8 text-lg mt-8 shadow"
 					asChild
 				>
 					<Link href="/our-courses">Get started</Link>

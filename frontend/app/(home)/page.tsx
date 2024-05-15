@@ -8,6 +8,7 @@ import StartToday from "./_components/StartToday";
 import NeedHelp from "@/components/NeedHelp";
 import ProcessShowcase from "./_components/ProcessShowcase";
 import OurFacilities from "./_components/OurFacilities";
+import UpcomingClasses from "./_components/UpcomingClasses";
 
 export default function Home() {
 	return (
@@ -20,6 +21,7 @@ export default function Home() {
 			<StartToday />
 			<ProcessShowcase />
 			<OurFacilities />
+			<UpcomingClasses />
 			<NeedHelp />
 		</>
 	);

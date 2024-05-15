@@ -13,7 +13,20 @@ const ProcessShowcase = () => {
 							<CircleCheckBig className="inline text-green-100 mr-2" />
 							Apply
 						</h4>
-						<p className="text-sm">
+						<p className="text-xs lg:text-sm">
+							qqLorem ipsum dolor sit, amet consectetur
+							adipisicing elit. Laudantium ad minima maxime
+							mollitia similique, quis nobis porro autem, tempora
+							voluptatem, voluptates corrupti maiores unde. Velit!
+						</p>
+					</div>
+					<Separator className="my-5" />
+					<div>
+						<h4 className="text-xl mb-3 uppercase lg:text-2xl">
+							<CircleCheckBig className="inline text-green-100 mr-2" />
+							Apply
+						</h4>
+						<p className="text-xs lg:text-sm">
 							Lorem ipsum dolor sit, amet consectetur adipisicing
 							elit. Laudantium ad minima maxime mollitia
 							similique, quis nobis porro autem, tempora
@@ -26,20 +39,7 @@ const ProcessShowcase = () => {
 							<CircleCheckBig className="inline text-green-100 mr-2" />
 							Apply
 						</h4>
-						<p className="text-sm">
-							Lorem ipsum dolor sit, amet consectetur adipisicing
-							elit. Laudantium ad minima maxime mollitia
-							similique, quis nobis porro autem, tempora
-							voluptatem, voluptates corrupti maiores unde. Velit!
-						</p>
-					</div>
-					<Separator className="my-5" />
-					<div>
-						<h4 className="text-xl mb-3 uppercase lg:text-2xl">
-							<CircleCheckBig className="inline text-green-100 mr-2" />
-							Apply
-						</h4>
-						<p className="text-sm">
+						<p className="text-xs lg:text-sm">
 							Lorem ipsum dolor sit, amet consectetur adipisicing
 							elit. Laudantium ad minima maxime mollitia
 							similique, quis nobis porro autem, tempora
@@ -53,7 +53,7 @@ const ProcessShowcase = () => {
 						alt="Courses inside 2 tablets"
 						height={1000}
 						width={1000}
-						className="h-full object-cover"
+						className="object-cover"
 					/>
 				</div>
 			</div>
