@@ -17,7 +17,7 @@ const NeedHelp = ({
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
 			<div className="container">
 				<div
-					className="bg-green-400 bg-no-repeat bg-right bg-auto py-4 md:py-8 px-4 md:px-8 lg:px-12 rounded-xl bg-fixed"
+					className="bg-green-400 bg-no-repeat bg-right bg-auto py-4 md:py-8 px-4 md:px-8 lg:px-12 rounded-xl bg-scroll"
 					style={{ backgroundImage: `url(/phone-icon.png)` }}
 				>
 					<h3 className="text-white my-5 text-xl md:text-2xl lg:text-3xl">

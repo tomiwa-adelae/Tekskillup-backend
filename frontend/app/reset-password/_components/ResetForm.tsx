@@ -20,16 +20,14 @@ import Link from "next/link";
 
 const formSchema = z.object({
 	email: z.string().email().min(2, { message: "Email is required!" }),
-	password: z.string().min(2, { message: "Password is required!" }),
 });
 
-const LoginForm = () => {
+const ResetForm = () => {
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			email: "",
-			password: "",
 		},
 	});
 
@@ -42,7 +40,12 @@ const LoginForm = () => {
 
 	return (
 		<div className="bg-green-400 shadow-lg rounded-2xl py-12 px-8 text-white">
-			<h3 className="text-center text-3xl mb-6">Sign in</h3>
+			<h3 className="md:hidden text-center text-3xl mb-6">
+				Reset password
+			</h3>
+			<p className="md:hidden text-center text-sm mb-4 text-slate-200">
+				Please enter the email address you registered with
+			</p>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
@@ -64,48 +67,17 @@ const LoginForm = () => {
 							</FormItem>
 						)}
 					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Password</FormLabel>
-								<FormControl className="text-black">
-									<Input
-										placeholder="e.g. &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-										type="password"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+
 					<Button
 						className="bg-green-200 w-full font-semibold uppercase"
 						type="submit"
 					>
-						Login
+						Continue
 					</Button>
-					<Link
-						href="/reset-password"
-						className="transition ease-in-out block text-sm md:text-base font-semibold hover:text-slate-200"
-					>
-						Forgot password?
-					</Link>
-					<p className="text-xs md:text-sm text-center text-slate-200">
-						Don&apos;t have an account yet?{" "}
-						<Link
-							href={"/register"}
-							className="transition ease-in-out font-semibold text-white hover:text-slate-200"
-						>
-							Create account now
-						</Link>
-					</p>
 				</form>
 			</Form>
 		</div>
 	);
 };
 
-export default LoginForm;
+export default ResetForm;
