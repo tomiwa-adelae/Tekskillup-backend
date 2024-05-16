@@ -10,7 +10,7 @@ export function Showcase() {
 						<h1 className="text-3xl leading-relaxed md:text-5xl md:leading-snug lg:text-6xl lg:leading-relaxed">
 							We&apos;d love to hear from you😊
 						</h1>
-						<p className="text-sm">
+						<p className="text-sm mt-4">
 							Lorem ipsum dolor sit amet consectetur adipisicing
 							elit. Error eveniet adipisci ipsum neque quasi earum
 							ratione possimus minima nulla et tenetur

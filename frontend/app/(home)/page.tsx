@@ -22,12 +22,17 @@ export default function Home() {
 			<ProcessShowcase />
 			<OurFacilities />
 			<UpcomingClasses />
-			<NeedHelp helpTitle="Need help choosing a course? Talk to an expert" helpDescription="Lorem ipsum dolor sit amet consectetur, adipisicing
+			<NeedHelp
+				helpTitle="Need help choosing a course? Talk to an expert"
+				helpDescription="Lorem ipsum dolor sit amet consectetur, adipisicing
 						elit. Quas iste voluptates modi eos, amet iusto ea ad
 						doloribus, laboriosam quidem odio consequuntur aliquam
 						voluptatum dignissimos odit. Ut excepturi nostrum,
 						praesentium obcaecati, nihil a illum consequatur rem
-						nulla hic culpa aspernatur." helpButtonName="Get in touch" helpButtonLink="/contact" />
+						nulla hic culpa aspernatur."
+				helpButtonName="Get in touch"
+				helpButtonLink="/contact"
+			/>
 		</>
 	);
 }
