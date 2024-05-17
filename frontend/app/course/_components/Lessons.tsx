@@ -9,8 +9,8 @@ const Lessons = () => {
 				<h3 className="text-green-400 text-center my-5 text-2xl lg:text-3xl">
 					What you will learn
 				</h3>
-				<div className="flex flex-col-reverse gap-4 items-center lg:flex-row lg:justify-between mt-8">
-					<div className="space-y-6 flex-2">
+				<div className="flex flex-col-reverse gap-4 items-center lg:flex-row lg:justify-between mt-10">
+					<div className="space-y-6 flex-3">
 						<h5 className="text-sm md:text-base">
 							<CircleCheckBig className="text-green-400 inline mr-2" />
 							Lorem ipsum dolor sit amet consectetur adipisicing
@@ -48,7 +48,7 @@ const Lessons = () => {
 							iste.
 						</h5>
 					</div>
-					<div className="flex-1 flex items-center justify-center">
+					<div className="flex-auto flex items-center justify-center">
 						<Image
 							src={"/pace-img.png"}
 							alt="Study cap"
