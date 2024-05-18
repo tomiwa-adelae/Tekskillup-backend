@@ -95,12 +95,17 @@ const config = {
 						opacity: "0",
 					},
 				},
+				"caret-blink": {
+					"0%,70%,100%": { opacity: "1" },
+					"20%,50%": { opacity: "0" },
+				},
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 				scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
 				"meteor-effect": "meteor 5s linear infinite",
+				"caret-blink": "caret-blink 1.25s ease-out infinite",
 			},
 		},
 	},

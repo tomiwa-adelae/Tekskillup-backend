@@ -12,7 +12,7 @@ import BioBox from "./BioBox";
 const Wrapper = () => {
 	return (
 		<div className="mt-8">
-			<div className="flex items-center justify-start gap-4">
+			<div className="flex items-center justify-center md:justify-start gap-4">
 				<CircleUserRound
 					size={120}
 					strokeWidth={0.75}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LockKeyhole, LogOut, User } from "lucide-react";
+import { Mail, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,25 +25,16 @@ const DropDown = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
-				<DropdownMenuLabel>My Account</DropdownMenuLabel>
-				<DropdownMenuSeparator />
-				<Link href="/editprofile">
-					<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-						<User className="mr-2 h-4 w-4" />
-						<span>Edit Profile</span>
-					</DropdownMenuItem>
-				</Link>
-				<DropdownMenuSeparator />
-				<Link href="/changepassword">
-					<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-						<LockKeyhole className="mr-2 h-4 w-4" />
-						<span>Change password</span>
-					</DropdownMenuItem>
-				</Link>
+				<DropdownMenuLabel>Account actions</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-					<LogOut className="mr-2 h-4 w-4" />
-					<span>Log out</span>
+					<Mail className="mr-2 h-4 w-4" />
+					<span>Email user</span>
+				</DropdownMenuItem>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+					<Trash2 className="mr-2 h-4 w-4" />
+					<span>Delete user</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

@@ -7,6 +7,7 @@ const Showcase = () => {
 			className="py-16 bg-no-repeat bg-scroll bg-center bg-cover"
 			style={{ backgroundImage: `url(/test-image.jpg)` }}
 		>
+			<div className="bg-blend overlay"></div>
 			<div className="container flex flex-col md:flex-row gap-4 lg:gap-8 items-center justify-between">
 				<div className="hidden md:block flex-1 text-white">
 					<h1 className="text-7xl">Verify code</h1>

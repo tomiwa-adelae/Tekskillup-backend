@@ -52,7 +52,7 @@ const MobileSideBar = () => {
 						<Separator />
 					</nav>
 					<Button
-						className="mt-6 w-full text-green-400 text-base font-semibold transition ease-in-out bg-gray-100 hover:bg-gray-200"
+						className="mt-6 w-full text-green-400 text-base font-semibold transition ease-in-out uppercase bg-gray-100 hover:bg-gray-200"
 						asChild
 					>
 						<Link href="/register">Get started</Link>

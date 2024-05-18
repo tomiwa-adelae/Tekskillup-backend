@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Editor } from "@/components/Editor";
 
 const formSchema = z.object({
 	bio: z.string().min(2).max(50),
@@ -73,11 +74,7 @@ const BioBox = () => {
 								render={({ field }) => (
 									<FormItem>
 										<FormControl>
-											<Textarea
-												placeholder="Tell us little about yourself."
-												className=""
-												{...field}
-											/>
+											<Editor {...field} />
 										</FormControl>
 										<FormDescription className="text-xs md:text-sm">
 											This is your public biography.
