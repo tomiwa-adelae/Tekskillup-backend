@@ -35,7 +35,7 @@ const DashboardBoxes = () => {
 				</Link>
 
 				<Link
-					href="/admin-users"
+					href="/adminusers"
 					className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 md:col-span-1 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100"
 				>
 					<Image
@@ -96,7 +96,7 @@ const DashboardBoxes = () => {
 				</div>
 
 				<Link
-					href="/admin-users"
+					href="/adminusers"
 					className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100"
 				>
 					<Image
