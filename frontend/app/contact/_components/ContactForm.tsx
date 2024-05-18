@@ -108,7 +108,7 @@ const ContactForm = () => {
 								<FormLabel>Message</FormLabel>
 								<FormControl>
 									<Textarea
-										placeholder="Tell us a little bit about yourself"
+										placeholder="What do you want us to know?"
 										className=""
 										{...field}
 									/>

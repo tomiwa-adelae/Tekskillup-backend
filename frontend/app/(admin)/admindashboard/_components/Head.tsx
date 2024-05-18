@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { CircleUserRound } from "lucide-react";
-import Link from "next/link";
 import React from "react";
+import DropDown from "./DropDown";
 
 const Head = () => {
 	return (
@@ -25,12 +24,9 @@ const Head = () => {
 						</div>
 					</div>
 
-					<Button
-						className="bg-transparent text-black outline outline-2 outline-green-400 font-semibold uppercase py-6 px-10 mt-4 md:mt-0"
-						asChild
-					>
-						<Link href={"/edit profile"}>Edit profile</Link>
-					</Button>
+					<div className=" mt-4 md:mt-0">
+						<DropDown />
+					</div>
 				</div>
 			</div>
 		</div>
