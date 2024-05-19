@@ -18,12 +18,22 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
+import { setCredentials } from "../../../redux/features/auth/authSlice";
+// import { AppDispatch, RootState } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import axios from "axios";
+
 const formSchema = z.object({
 	email: z.string().email().min(2, { message: "Email is required!" }),
 	password: z.string().min(2, { message: "Password is required!" }),
 });
 
 const LoginForm = () => {
+	const dispatch = useAppDispatch();
+
+	const userInfo = useAppSelector((state) => state.auth);
+	console.log(userInfo);
+
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -34,11 +44,20 @@ const LoginForm = () => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
 		console.log(values);
-	}
+
+		// const res = await axios
+
+		const res = await axios.post(
+			"http://localhost:5000/api/users/auth",
+			values
+		);
+		console.log(res);
+		// dispatch(setCredentials({ name: "Tomiwa" }));
+	};
 
 	return (
 		<div className="bg-green-400 shadow-lg rounded-2xl py-12 px-8 text-white">
