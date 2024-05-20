@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,26 +17,64 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-	courseTitle: z.string().min(2).max(50),
+	title: z
+		.string()
+		.min(3, { message: "The course title is required!" })
+		.max(50, { message: "Course title is too long!" }),
 });
 
 const FormBox = () => {
+	const { toast } = useToast();
+	const router = useRouter();
+	const [loading, setLoading] = useState<boolean>(false);
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			courseTitle: "",
+			title: "",
 		},
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-	}
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		setLoading(true);
+		const config = {
+			headers: {
+				"Content-type": "application/json",
+			},
+			withCredentials: true,
+		};
+		try {
+			const res = await axios.post(
+				`${BASE_URL}${COURSES_URL}`,
+				values,
+				config
+			);
+			setLoading(false);
+			toast({
+				title: "Success!",
+				description: "You have successfully created a course😁",
+			});
+			router.push("/");
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+	};
 	return (
 		<div className="bg-gray-50 mt-8 shadow-lg w-full md:max-w-lg p-8 rounded-lg space-y-6">
 			<h1 className="text-2xl md:text-3xl text-green-400">
@@ -53,7 +91,7 @@ const FormBox = () => {
 				>
 					<FormField
 						control={form.control}
-						name="courseTitle"
+						name="title"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Course title</FormLabel>
@@ -76,8 +114,16 @@ const FormBox = () => {
 					<Button
 						className="ml-4 bg-green-400 uppercase"
 						type="submit"
+						disabled={loading}
 					>
-						Continue
+						{loading ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+								Please wait
+							</>
+						) : (
+							"Continue"
+						)}
 					</Button>
 				</form>
 			</Form>

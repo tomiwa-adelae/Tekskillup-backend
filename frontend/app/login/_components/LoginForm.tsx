@@ -26,8 +26,8 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-	email: z.string().email().min(2, { message: "Email is required!" }),
-	password: z.string().min(2, { message: "Password is required!" }),
+	email: z.string().email().min(1, { message: "Email is required!" }),
+	password: z.string().min(1, { message: "Password is required!" }),
 });
 
 const LoginForm = () => {
@@ -73,7 +73,8 @@ const LoginForm = () => {
 			dispatch(setCredentials({ ...res.data }));
 			setLoading(false);
 			toast({
-				description: "Login successfully!",
+				title: "Login successfully!",
+				description: "You have successfully logged into your account😁",
 			});
 			router.push("/");
 		} catch (error: any) {

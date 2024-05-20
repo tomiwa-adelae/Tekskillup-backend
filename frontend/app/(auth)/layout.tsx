@@ -11,6 +11,6 @@ export default function AdminLayout({
 	const { toast } = useToast();
 	const { userInfo } = useSelector((state: any) => state.auth);
 
-	if (userInfo === null) return redirect("/login");
+	// if (userInfo === null) return redirect("/login");
 	return <div>{children}</div>;
 }

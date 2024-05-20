@@ -9,6 +9,6 @@ export default function AdminLayout({
 }>) {
 	const { userInfo } = useSelector((state: any) => state.auth);
 
-	if (!userInfo.isAdmin) return redirect("/login");
+	// if (!userInfo.isAdmin) return redirect("/login");
 	return <div>{children}</div>;
 }
