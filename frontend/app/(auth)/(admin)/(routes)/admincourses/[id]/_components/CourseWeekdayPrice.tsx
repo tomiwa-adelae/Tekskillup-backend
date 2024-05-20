@@ -2,24 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Loader2, Pencil, X } from "lucide-react";
+import { FaNairaSign } from "react-icons/fa6";
 import React, { useState } from "react";
 
 import { z } from "zod";
 
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import Moment from "react-moment";
 
 import {
 	Form,
@@ -29,31 +18,33 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
-import axios from "axios";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 
 const formSchema = z.object({
-	weekendStartDate: z.date({
-		required_error: "A start date is required.",
-	}),
+	weekdayPrice: z.string().min(2).max(50),
 });
 
-const CourseWeekendStartDate = ({
-	weekendStartDate,
+const CourseWeekdayPrice = ({
+	weekdayPrice,
 	id,
 	successUpdate,
 }: {
-	weekendStartDate: string;
+	weekdayPrice: number;
 	id: string;
 	successUpdate: any;
 }) => {
 	const { toast } = useToast();
-	const [editStartDate, setEditStartDate] = useState(false);
+	const [editPrice, setEditPrice] = useState(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
+		defaultValues: {
+			weekdayPrice: "",
+		},
 	});
 
 	// 2. Define a submit handler.
@@ -75,11 +66,11 @@ const CourseWeekendStartDate = ({
 				config
 			);
 			setLoading(false);
-			setEditStartDate(!editStartDate);
+			setEditPrice(!editPrice);
 			toast({
 				title: "Success!",
 				description:
-					"You have successfully added the weekend start date😁",
+					"You have successfully updated the weekdays price😁",
 			});
 			successUpdate(res.data);
 		} catch (error: any) {
@@ -97,23 +88,23 @@ const CourseWeekendStartDate = ({
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
 			<div className="flex items-center justify-between gap-4 mb-3">
-				<h4 className="text-lg md:text-xl">Weekend start date</h4>
+				<h4 className="text-lg md:text-xl">Weekdays price</h4>
 				<Button
 					variant="ghost"
 					className="transition ease-in-out uppercase hover:bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
-					onClick={() => setEditStartDate(!editStartDate)}
+					onClick={() => setEditPrice(!editPrice)}
 				>
-					{editStartDate ? (
+					{editPrice ? (
 						<X className="w-4 h-4 mr-2" />
 					) : (
 						<Pencil className="w-4 h-4 mr-2" />
 					)}
 					<span className="text-xs font-semibold">
-						{editStartDate ? "Cancel" : "Edit"}
+						{editPrice ? "Cancel" : "Edit"}
 					</span>
 				</Button>
 			</div>
-			{editStartDate ? (
+			{editPrice ? (
 				<div>
 					<Form {...form}>
 						<form
@@ -122,53 +113,21 @@ const CourseWeekendStartDate = ({
 						>
 							<FormField
 								control={form.control}
-								name="weekendStartDate"
+								name="weekdayPrice"
 								render={({ field }) => (
-									<FormItem className="flex flex-col">
-										<Popover>
-											<PopoverTrigger asChild>
-												<FormControl>
-													<Button
-														variant={"outline"}
-														className={cn(
-															"w-full pl-3 text-left font-normal",
-															!field.value &&
-																"text-muted-foreground"
-														)}
-													>
-														{field.value ? (
-															format(
-																field.value,
-																"PPP"
-															)
-														) : (
-															<span>
-																Pick a start
-																date
-															</span>
-														)}
-														<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-													</Button>
-												</FormControl>
-											</PopoverTrigger>
-											<PopoverContent
-												className="w-auto p-0"
-												align="start"
-											>
-												<Calendar
-													mode="single"
-													selected={field.value}
-													onSelect={field.onChange}
-													disabled={(date) =>
-														date < new Date()
-													}
-													initialFocus
+									<FormItem>
+										<FormControl>
+											<div className="relative">
+												<Input
+													placeholder="e.g 200,000"
+													className="pl-8"
+													{...field}
 												/>
-											</PopoverContent>
-										</Popover>
-										<FormDescription>
-											The start date gives people a
-											timeline.
+												<FaNairaSign className="absolute top-1/2 left-2 w-4 h-4 text-gray-400 -translate-y-1/2" />
+											</div>
+										</FormControl>
+										<FormDescription className="text-xs md:text-sm">
+											This is the weekdays course price.
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -193,15 +152,11 @@ const CourseWeekendStartDate = ({
 				</div>
 			) : (
 				<div>
-					{weekendStartDate ? (
-						<p className="text-sm">
-							<Moment format="DD-MMM-YYYY">
-								{weekendStartDate}
-							</Moment>
-						</p>
+					{weekdayPrice ? (
+						<p className="text-sm">#{weekdayPrice}</p>
 					) : (
 						<p className="text-sm italic font-light">
-							No weekend start date
+							No weekdays price
 						</p>
 					)}
 				</div>
@@ -210,4 +165,4 @@ const CourseWeekendStartDate = ({
 	);
 };
 
-export default CourseWeekendStartDate;
+export default CourseWeekdayPrice;

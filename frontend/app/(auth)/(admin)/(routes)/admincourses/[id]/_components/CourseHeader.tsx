@@ -1,23 +1,75 @@
 import { Button } from "@/components/ui/button";
-import { BadgeCheck } from "lucide-react";
-import React from "react";
+import { BadgeCheck, Loader2 } from "lucide-react";
+import React, { useState } from "react";
 import { DeleteCourseAlertDialog } from "./DeleteCourseAlertModal";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
+import axios from "axios";
 
 const CourseHeader = ({
+	id,
 	title,
 	isPublished,
+	completedText,
+	successUpdate,
 }: {
+	id: string;
 	title: string;
 	isPublished: boolean;
+	completedText: string;
+	successUpdate: any;
 }) => {
+	const { toast } = useToast();
+
+	const [loading, setLoading] = useState<boolean>(false);
+
+	const handlePublished = async () => {
+		try {
+			setLoading(true);
+
+			const config = {
+				headers: {
+					"Content-type": "application/json",
+				},
+				withCredentials: true,
+			};
+
+			const endpoint = isPublished ? "unpublish" : "publish";
+
+			const res = await axios.put(
+				`${BASE_URL}${COURSES_URL}/${id}/${endpoint}`,
+				{},
+				config
+			);
+
+			setLoading(false);
+			successUpdate(res.data);
+			toast({
+				title: "Success!",
+				description: `You have successfully ${endpoint} the course😁`,
+			});
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<div className="my-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
 			<div className="space-y-4">
 				<h1 className="text-2xl md:text-3xl lg:text-4xl text-green-400">
 					{title}
 				</h1>
-				<p className="text-xs md:text-sm">Completed fields (2/5)</p>
+				<p className="text-xs md:text-sm">
+					Completed fields ({completedText})
+				</p>
 			</div>
 			<div className="flex w-full md:w-auto items-center justify-center gap-4">
 				<Button
@@ -27,11 +79,22 @@ const CourseHeader = ({
 						isPublished &&
 							"bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
 					)}
+					onClick={handlePublished}
+					disabled={loading}
 				>
 					<BadgeCheck className="h-4 w-4 mr-2" />
-					{isPublished ? "Published" : "Publish"}
+					{loading ? (
+						<>
+							<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+							Please wait
+						</>
+					) : isPublished ? (
+						"Published"
+					) : (
+						"Publish"
+					)}
 				</Button>
-				<DeleteCourseAlertDialog />
+				<DeleteCourseAlertDialog id={id} />
 			</div>
 		</div>
 	);

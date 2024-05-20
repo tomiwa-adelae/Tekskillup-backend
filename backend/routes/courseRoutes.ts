@@ -11,6 +11,7 @@ import {
 	deleteCourse,
 	createCourseLesson,
 	deleteCourseLesson,
+	uploadCourseImage,
 } from "../controllers/courseController";
 import { admin, protect } from "../middleware/authMiddleware";
 import { courseLessonValidator, validate } from "../utils/validators";
@@ -35,5 +36,6 @@ router
 	.delete(protect, admin, deleteCourse);
 router.route("/:id/publish").put(protect, admin, publishCourse);
 router.route("/:id/unpublish").put(protect, admin, unpublishCourse);
+router.route("/:id/image").put(protect, admin, uploadCourseImage);
 
 export default router;

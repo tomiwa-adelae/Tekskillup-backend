@@ -51,16 +51,15 @@ const CourseTitle = ({
 
 	// 2. Define a submit handler.
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		setLoading(true);
-		const config = {
-			headers: {
-				"Content-type": "application/json",
-			},
-			withCredentials: true,
-		};
-
 		try {
 			setLoading(true);
+
+			const config = {
+				headers: {
+					"Content-type": "application/json",
+				},
+				withCredentials: true,
+			};
 
 			const res = await axios.put(
 				`${BASE_URL}${COURSES_URL}/${id}`,

@@ -34,17 +34,17 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
-	weekendStartDate: z.date({
+	weekdayStartDate: z.date({
 		required_error: "A start date is required.",
 	}),
 });
 
-const CourseWeekendStartDate = ({
-	weekendStartDate,
+const CourseWeekdayStartDate = ({
+	weekdayStartDate,
 	id,
 	successUpdate,
 }: {
-	weekendStartDate: string;
+	weekdayStartDate: string;
 	id: string;
 	successUpdate: any;
 }) => {
@@ -79,7 +79,7 @@ const CourseWeekendStartDate = ({
 			toast({
 				title: "Success!",
 				description:
-					"You have successfully added the weekend start date😁",
+					"You have successfully added the weekdays start date😁",
 			});
 			successUpdate(res.data);
 		} catch (error: any) {
@@ -97,7 +97,7 @@ const CourseWeekendStartDate = ({
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
 			<div className="flex items-center justify-between gap-4 mb-3">
-				<h4 className="text-lg md:text-xl">Weekend start date</h4>
+				<h4 className="text-lg md:text-xl">Weekdays start date</h4>
 				<Button
 					variant="ghost"
 					className="transition ease-in-out uppercase hover:bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
@@ -122,7 +122,7 @@ const CourseWeekendStartDate = ({
 						>
 							<FormField
 								control={form.control}
-								name="weekendStartDate"
+								name="weekdayStartDate"
 								render={({ field }) => (
 									<FormItem className="flex flex-col">
 										<Popover>
@@ -193,15 +193,15 @@ const CourseWeekendStartDate = ({
 				</div>
 			) : (
 				<div>
-					{weekendStartDate ? (
+					{weekdayStartDate ? (
 						<p className="text-sm">
 							<Moment format="DD-MMM-YYYY">
-								{weekendStartDate}
+								{weekdayStartDate}
 							</Moment>
 						</p>
 					) : (
 						<p className="text-sm italic font-light">
-							No weekend start date
+							No weekdays start date
 						</p>
 					)}
 				</div>
@@ -210,4 +210,4 @@ const CourseWeekendStartDate = ({
 	);
 };
 
-export default CourseWeekendStartDate;
+export default CourseWeekdayStartDate;

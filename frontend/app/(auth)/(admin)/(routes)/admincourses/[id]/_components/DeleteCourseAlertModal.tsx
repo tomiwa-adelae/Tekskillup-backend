@@ -1,3 +1,5 @@
+"use client";
+import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -10,9 +12,51 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { Loader2, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export function DeleteCourseAlertDialog() {
+export function DeleteCourseAlertDialog({ id }: { id: string }) {
+	const router = useRouter();
+
+	const { toast } = useToast();
+
+	const [loading, setLoading] = useState<boolean>(false);
+
+	const handleDelete = async () => {
+		setLoading(true);
+		const config = {
+			headers: {
+				"Content-type": "application/json",
+			},
+			withCredentials: true,
+		};
+
+		try {
+			const res = await axios.delete(
+				`${BASE_URL}${COURSES_URL}/${id}`,
+				config
+			);
+			setLoading(false);
+			toast({
+				title: "Success!",
+				description: "You have successfully deleted a course😁",
+			});
+			router.push("/admincourses");
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
@@ -36,8 +80,19 @@ export function DeleteCourseAlertDialog() {
 					<AlertDialogCancel className="uppercase">
 						Cancel
 					</AlertDialogCancel>
-					<AlertDialogAction className="bg-destructive uppercase">
-						Continue
+					<AlertDialogAction
+						className="bg-destructive uppercase"
+						onClick={handleDelete}
+						disabled={loading}
+					>
+						{loading ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+								Please wait
+							</>
+						) : (
+							"Continue"
+						)}
 					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>

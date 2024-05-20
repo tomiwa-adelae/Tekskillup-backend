@@ -12,6 +12,10 @@ import CourseDescription from "./CourseDescription";
 import CourseOnlinePrice from "./CourseOnlinePrice";
 import CourseLessons from "./CourseLessons";
 import CourseWeekendStartDate from "./CourseWeekendStartDate";
+import CourseWeekdayStartDate from "./CourseWeekdayStartDate";
+import CourseWeekendPrice from "./CourseWeekendPrice";
+import CourseWeekdayPrice from "./CourseWeekdayPrice";
+import CourseImage from "./CourseImage";
 
 interface CourseProps {
 	_id: string;
@@ -23,8 +27,8 @@ interface CourseProps {
 	onlinePrice: number;
 	weekendPrice: number;
 	weekendStartDate: string;
-	weekdaysPrice: number;
-	weekdaysStartDate: string;
+	weekdayPrice: number;
+	weekdayStartDate: string;
 }
 
 const CourseContainer = ({ id }: { id: string }) => {
@@ -53,13 +57,35 @@ const CourseContainer = ({ id }: { id: string }) => {
 		fetchCourseDetails();
 	}, [id, toast]);
 
+	const requiredFields = [
+		course?.image,
+		course?.title,
+		course?.description,
+		course?.onlinePrice,
+		course?.weekendPrice,
+		course?.weekdayPrice,
+		course?.weekendStartDate,
+		course?.weekdayStartDate,
+	];
+
+	const totalFields = requiredFields.length;
+	const completedFields = requiredFields.filter(Boolean).length;
+	const completedText = `${completedFields}/${totalFields}`;
+
+	console.log(completedText);
+
 	if (loading) return <p>Loading...</p>;
 
 	return (
 		<div>
 			<CourseHeader
+				id={course?._id!}
 				title={course?.title!}
 				isPublished={course?.isPublished!}
+				completedText={completedText}
+				successUpdate={(updatedCourse: CourseProps) => {
+					setCourse(updatedCourse);
+				}}
 			/>
 			<Separator className="my-8" />
 			<div className="p-3 bg-white md:p-8 rounded-lg shadow">
@@ -85,7 +111,14 @@ const CourseContainer = ({ id }: { id: string }) => {
 							setCourse(updatedCourse);
 						}}
 					/>
-					{/* <CourseImage /> */}
+					<CourseImage
+						title={course?.title!}
+						image={course?.image!}
+						id={course?._id!}
+						successUpdate={(updatedCourse: CourseProps) => {
+							setCourse(updatedCourse);
+						}}
+					/>
 					<CourseLessons
 						lessons={course?.lessons!}
 						id={course?._id!}
@@ -100,6 +133,13 @@ const CourseContainer = ({ id }: { id: string }) => {
 							setCourse(updatedCourse);
 						}}
 					/>
+					<CourseWeekendPrice
+						weekendPrice={course?.weekendPrice!}
+						id={course?._id!}
+						successUpdate={(updatedCourse: CourseProps) => {
+							setCourse(updatedCourse);
+						}}
+					/>
 					<CourseWeekendStartDate
 						weekendStartDate={course?.weekendStartDate!}
 						id={course?._id!}
@@ -107,10 +147,20 @@ const CourseContainer = ({ id }: { id: string }) => {
 							setCourse(updatedCourse);
 						}}
 					/>
-					{/* <CourseWeekdaysPrice />
-				<CourseWeekdaysStartDate />
-				<CourseWeekendPrice />
-				<CourseWeekendStartDate /> */}
+					<CourseWeekdayPrice
+						weekdayPrice={course?.weekdayPrice!}
+						id={course?._id!}
+						successUpdate={(updatedCourse: CourseProps) => {
+							setCourse(updatedCourse);
+						}}
+					/>
+					<CourseWeekdayStartDate
+						weekdayStartDate={course?.weekdayStartDate!}
+						id={course?._id!}
+						successUpdate={(updatedCourse: CourseProps) => {
+							setCourse(updatedCourse);
+						}}
+					/>
 				</div>
 			</div>
 		</div>

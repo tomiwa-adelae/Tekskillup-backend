@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../middleware/asyncHandler";
 import Course from "../models/courseModel";
+import cloudinary from "../middleware/cloudinaryMiddleware";
 
 declare module "express-serve-static-core" {
 	export interface Request {
@@ -158,6 +159,8 @@ const publishCourse = asyncHandler(async (req: Request, res: Response) => {
 			onlinePrice,
 			weekendPrice,
 			weekdayPrice,
+			weekendStartDate,
+			weekdayStartDate,
 		} = course;
 		if (
 			!title ||
@@ -165,7 +168,9 @@ const publishCourse = asyncHandler(async (req: Request, res: Response) => {
 			!image ||
 			!onlinePrice ||
 			!weekendPrice ||
-			!weekdayPrice
+			!weekdayPrice ||
+			!weekendStartDate ||
+			!weekdayStartDate
 		) {
 			res.status(401);
 			throw new Error("Complete all fields!");
@@ -207,8 +212,57 @@ const deleteCourse = asyncHandler(async (req: Request, res: Response) => {
 	const course = await Course.findById(req.params.id);
 
 	if (course) {
-		await Course.deleteOne({ _id: course._id });
-		res.status(200).json({ message: "Course deleted successfully!" });
+		if (course.imageId) {
+			await cloudinary.uploader.destroy(course.imageId, {
+				invalidate: true,
+			});
+			await Course.deleteOne({ _id: course._id });
+			res.status(200).json({ message: "Course deleted successfully!" });
+		} else {
+			await Course.deleteOne({ _id: course._id });
+			res.status(200).json({ message: "Course deleted successfully!" });
+		}
+	} else {
+		res.status(400);
+		throw new Error("Internal server error!");
+	}
+});
+
+// @desc    Update a course image by admin
+// @route   PUT /api/courses/:id/image
+// @access  Private/admin
+const uploadCourseImage = asyncHandler(async (req: Request, res: Response) => {
+	const { image } = req.body;
+	const course = await Course.findById(req.params.id);
+
+	if (course) {
+		if (course.imageId) {
+			await cloudinary.uploader.destroy(course.imageId, {
+				invalidate: true,
+			});
+
+			const uploadResponse = await cloudinary.uploader.upload(image, {
+				upload_preset: "tekskillup",
+			});
+
+			course.image = uploadResponse.url;
+			course.imageId = uploadResponse.public_id;
+
+			const updatedCourse = await course.save();
+
+			res.status(200).json(updatedCourse);
+		} else {
+			const uploadResponse = await cloudinary.uploader.upload(image, {
+				upload_preset: "tekskillup",
+			});
+
+			course.image = uploadResponse.url;
+			course.imageId = uploadResponse.public_id;
+
+			const updatedCourse = await course.save();
+
+			res.status(200).json(updatedCourse);
+		}
 	} else {
 		res.status(400);
 		throw new Error("Internal server error!");
@@ -226,4 +280,5 @@ export {
 	deleteCourse,
 	createCourseLesson,
 	deleteCourseLesson,
+	uploadCourseImage,
 };
