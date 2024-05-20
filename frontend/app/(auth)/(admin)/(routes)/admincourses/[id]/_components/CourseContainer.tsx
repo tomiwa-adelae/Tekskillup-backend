@@ -10,6 +10,8 @@ import CourseTitle from "./CourseTitle";
 import { LayoutDashboard } from "lucide-react";
 import CourseDescription from "./CourseDescription";
 import CourseOnlinePrice from "./CourseOnlinePrice";
+import CourseLessons from "./CourseLessons";
+import CourseWeekendStartDate from "./CourseWeekendStartDate";
 
 interface CourseProps {
 	_id: string;
@@ -20,7 +22,9 @@ interface CourseProps {
 	lessons: {}[];
 	onlinePrice: number;
 	weekendPrice: number;
+	weekendStartDate: string;
 	weekdaysPrice: number;
+	weekdaysStartDate: string;
 }
 
 const CourseContainer = ({ id }: { id: string }) => {
@@ -82,7 +86,13 @@ const CourseContainer = ({ id }: { id: string }) => {
 						}}
 					/>
 					{/* <CourseImage /> */}
-					{/* <CourseLessons /> */}
+					<CourseLessons
+						lessons={course?.lessons!}
+						id={course?._id!}
+						successUpdate={(updatedCourse: CourseProps) => {
+							setCourse(updatedCourse);
+						}}
+					/>
 					<CourseOnlinePrice
 						onlinePrice={course?.onlinePrice!}
 						id={course?._id!}
@@ -90,8 +100,14 @@ const CourseContainer = ({ id }: { id: string }) => {
 							setCourse(updatedCourse);
 						}}
 					/>
-					{/* <CourseOnlineStartDate />
-				<CourseWeekdaysPrice />
+					<CourseWeekendStartDate
+						weekendStartDate={course?.weekendStartDate!}
+						id={course?._id!}
+						successUpdate={(updatedCourse: CourseProps) => {
+							setCourse(updatedCourse);
+						}}
+					/>
+					{/* <CourseWeekdaysPrice />
 				<CourseWeekdaysStartDate />
 				<CourseWeekendPrice />
 				<CourseWeekendStartDate /> */}

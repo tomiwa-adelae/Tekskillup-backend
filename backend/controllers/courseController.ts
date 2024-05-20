@@ -120,8 +120,8 @@ const createCourseLesson = asyncHandler(async (req: Request, res: Response) => {
 		};
 
 		course.lessons.push(lesson);
-		await course.save();
-		res.status(201).json({ message: "Lesson added successfully!" });
+		const updatedCourse = await course.save();
+		res.status(201).json(updatedCourse);
 	} else {
 		res.status(400);
 		throw new Error("Internal server error!");
@@ -136,8 +136,8 @@ const deleteCourseLesson = asyncHandler(async (req: Request, res: Response) => {
 
 	if (course) {
 		course.lessons.pull({ _id: req.params.lessonId });
-		await course.save();
-		res.status(200).json({ message: "Lesson deleted successfully!" });
+		const updatedCourse = await course.save();
+		res.status(200).json(updatedCourse);
 	} else {
 		res.status(400);
 		throw new Error("Internal server error!");

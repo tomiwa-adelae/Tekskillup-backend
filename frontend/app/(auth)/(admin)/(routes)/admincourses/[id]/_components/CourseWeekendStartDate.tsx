@@ -6,6 +6,16 @@ import React, { useState } from "react";
 
 import { z } from "zod";
 
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -17,36 +27,31 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import axios from "axios";
 import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
+import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
-	description: z
-		.string()
-		.max(1000, { message: "Course description is too long!" }),
+	weekendStartDate: z.date({
+		required_error: "A start date is required.",
+	}),
 });
 
-const CourseDescription = ({
-	description,
+const CourseWeekendStartDate = ({
+	weekendStartDate,
 	id,
 	successUpdate,
 }: {
-	description: string;
+	weekendStartDate: string;
 	id: string;
 	successUpdate: any;
 }) => {
 	const { toast } = useToast();
-	const [editDescription, setEditDescription] = useState(false);
+	const [editStartDate, setEditStartDate] = useState(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {
-			description: "",
-		},
 	});
 
 	// 2. Define a submit handler.
@@ -62,17 +67,23 @@ const CourseDescription = ({
 		try {
 			setLoading(true);
 
+			const date = values.weekendStartDate.getDate();
+			const year = values.weekendStartDate.getFullYear();
+			const month = values.weekendStartDate.getMonth();
+
+			const weekendStartDate = `${date}-${month + 1}-${year}`;
+
 			const res = await axios.put(
 				`${BASE_URL}${COURSES_URL}/${id}`,
-				values,
+				{ weekendStartDate },
 				config
 			);
 			setLoading(false);
-			setEditDescription(!editDescription);
+			setEditStartDate(!editStartDate);
 			toast({
 				title: "Success!",
 				description:
-					"You have successfully updated the course description",
+					"You have successfully added the weekend start date😁",
 			});
 			successUpdate(res.data);
 		} catch (error: any) {
@@ -90,23 +101,23 @@ const CourseDescription = ({
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
 			<div className="flex items-center justify-between gap-4 mb-3">
-				<h4 className="text-lg md:text-xl">Course description</h4>
+				<h4 className="text-lg md:text-xl">Weekend start date</h4>
 				<Button
 					variant="ghost"
 					className="transition ease-in-out uppercase hover:bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
-					onClick={() => setEditDescription(!editDescription)}
+					onClick={() => setEditStartDate(!editStartDate)}
 				>
-					{editDescription ? (
+					{editStartDate ? (
 						<X className="w-4 h-4 mr-2" />
 					) : (
 						<Pencil className="w-4 h-4 mr-2" />
 					)}
 					<span className="text-xs font-semibold">
-						{editDescription ? "Cancel" : "Edit"}
+						{editStartDate ? "Cancel" : "Edit"}
 					</span>
 				</Button>
 			</div>
-			{editDescription ? (
+			{editStartDate ? (
 				<div>
 					<Form {...form}>
 						<form
@@ -115,18 +126,53 @@ const CourseDescription = ({
 						>
 							<FormField
 								control={form.control}
-								name="description"
+								name="weekendStartDate"
 								render={({ field }) => (
-									<FormItem>
-										<FormControl>
-											<Textarea
-												placeholder="What is the description of your course?"
-												className=""
-												{...field}
-											/>
-										</FormControl>
-										<FormDescription className="text-xs md:text-sm">
-											This is your course description.
+									<FormItem className="flex flex-col">
+										<Popover>
+											<PopoverTrigger asChild>
+												<FormControl>
+													<Button
+														variant={"outline"}
+														className={cn(
+															"w-full pl-3 text-left font-normal",
+															!field.value &&
+																"text-muted-foreground"
+														)}
+													>
+														{field.value ? (
+															format(
+																field.value,
+																"PPP"
+															)
+														) : (
+															<span>
+																Pick a start
+																date
+															</span>
+														)}
+														<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+													</Button>
+												</FormControl>
+											</PopoverTrigger>
+											<PopoverContent
+												className="w-auto p-0"
+												align="start"
+											>
+												<Calendar
+													mode="single"
+													selected={field.value}
+													onSelect={field.onChange}
+													disabled={(date) =>
+														date < new Date()
+													}
+													initialFocus
+												/>
+											</PopoverContent>
+										</Popover>
+										<FormDescription>
+											The start date gives people a
+											timeline.
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -151,11 +197,11 @@ const CourseDescription = ({
 				</div>
 			) : (
 				<div>
-					{description ? (
-						<p className="text-sm">{description}</p>
+					{weekendStartDate ? (
+						<p className="text-sm">{weekendStartDate}</p>
 					) : (
 						<p className="text-sm italic font-light">
-							No description
+							No weekend start date
 						</p>
 					)}
 				</div>
@@ -164,4 +210,4 @@ const CourseDescription = ({
 	);
 };
 
-export default CourseDescription;
+export default CourseWeekendStartDate;

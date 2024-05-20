@@ -49,7 +49,7 @@ const Course = ({
 			<h4 className="text-lg md:text-xl text-green-400">{title}</h4>
 			<h5 className="text-sm">
 				{onlinePrice ? (
-					<>Weekdays price: #{onlinePrice}</>
+					<>Online price: #{onlinePrice}</>
 				) : (
 					<p className="text-xs md:text-sm italic">No online price</p>
 				)}

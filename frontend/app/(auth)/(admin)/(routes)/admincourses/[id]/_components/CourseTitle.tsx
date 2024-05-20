@@ -39,7 +39,7 @@ const CourseTitle = ({
 	successUpdate: any;
 }) => {
 	const { toast } = useToast();
-	const [editTitle, setEditTitle] = useState(false);
+	const [editTitle, setEditTitle] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -74,8 +74,13 @@ const CourseTitle = ({
 				description: "You have successfully updated the course title😁",
 			});
 			successUpdate(res.data);
-		} catch (error) {
+		} catch (error: any) {
 			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
 		} finally {
 			setLoading(false);
 		}

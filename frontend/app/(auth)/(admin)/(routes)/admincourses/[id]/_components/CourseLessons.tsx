@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, Pencil, X } from "lucide-react";
+import { BadgeCheck, Loader2, Pencil, Trash2, X } from "lucide-react";
 import React, { useState } from "react";
 
 import { z } from "zod";
@@ -18,34 +18,35 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { DeleteCourseLessonAlertDialog } from "./DeleteCourseLessonAlertModal";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 
 const formSchema = z.object({
-	description: z
+	content: z
 		.string()
-		.max(1000, { message: "Course description is too long!" }),
+		.min(3, { message: "Lesson is required!" })
+		.max(250, { message: "Lesson is too long!" }),
 });
 
-const CourseDescription = ({
-	description,
+const CourseLessons = ({
+	lessons,
 	id,
 	successUpdate,
 }: {
-	description: string;
+	lessons: any;
 	id: string;
 	successUpdate: any;
 }) => {
 	const { toast } = useToast();
-	const [editDescription, setEditDescription] = useState(false);
+	const [editLesson, setEditLesson] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			description: "",
+			content: "",
 		},
 	});
 
@@ -62,17 +63,16 @@ const CourseDescription = ({
 		try {
 			setLoading(true);
 
-			const res = await axios.put(
-				`${BASE_URL}${COURSES_URL}/${id}`,
+			const res = await axios.post(
+				`${BASE_URL}${COURSES_URL}/${id}/lessons`,
 				values,
 				config
 			);
 			setLoading(false);
-			setEditDescription(!editDescription);
+			setEditLesson(!editLesson);
 			toast({
 				title: "Success!",
-				description:
-					"You have successfully updated the course description",
+				description: "You have successfully added a lesson😁",
 			});
 			successUpdate(res.data);
 		} catch (error: any) {
@@ -90,23 +90,23 @@ const CourseDescription = ({
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
 			<div className="flex items-center justify-between gap-4 mb-3">
-				<h4 className="text-lg md:text-xl">Course description</h4>
+				<h4 className="text-lg md:text-xl">Course lessons</h4>
 				<Button
 					variant="ghost"
 					className="transition ease-in-out uppercase hover:bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
-					onClick={() => setEditDescription(!editDescription)}
+					onClick={() => setEditLesson(!editLesson)}
 				>
-					{editDescription ? (
+					{editLesson ? (
 						<X className="w-4 h-4 mr-2" />
 					) : (
 						<Pencil className="w-4 h-4 mr-2" />
 					)}
 					<span className="text-xs font-semibold">
-						{editDescription ? "Cancel" : "Edit"}
+						{editLesson ? "Cancel" : "Add lesson"}
 					</span>
 				</Button>
 			</div>
-			{editDescription ? (
+			{editLesson ? (
 				<div>
 					<Form {...form}>
 						<form
@@ -115,18 +115,17 @@ const CourseDescription = ({
 						>
 							<FormField
 								control={form.control}
-								name="description"
+								name="content"
 								render={({ field }) => (
 									<FormItem>
 										<FormControl>
-											<Textarea
-												placeholder="What is the description of your course?"
-												className=""
+											<Input
+												placeholder="e.g Learn HTML & CSS"
 												{...field}
 											/>
 										</FormControl>
 										<FormDescription className="text-xs md:text-sm">
-											This is your course description.
+											What will be taught in the course.
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -150,13 +149,29 @@ const CourseDescription = ({
 					</Form>
 				</div>
 			) : (
-				<div>
-					{description ? (
-						<p className="text-sm">{description}</p>
-					) : (
-						<p className="text-sm italic font-light">
-							No description
-						</p>
+				<div className="space-y-2">
+					{lessons?.map(
+						(lesson: { _id: string; content: string }) => (
+							<h4
+								key={lesson._id}
+								className="text-sm bg-green-100 rounded-md py-2 px-4 flex items-center justify-between"
+							>
+								<div>
+									<BadgeCheck className="inline mr-2 text-green-400" />
+									{lesson.content}
+								</div>
+								<DeleteCourseLessonAlertDialog
+									lessonId={lesson._id}
+									courseId={id}
+									successUpdate={(data: any) =>
+										successUpdate(data)
+									}
+								/>
+							</h4>
+						)
+					)}
+					{lessons?.length === 0 && (
+						<p className="text-sm italic font-light">No lessons</p>
 					)}
 				</div>
 			)}
@@ -164,4 +179,4 @@ const CourseDescription = ({
 	);
 };
 
-export default CourseDescription;
+export default CourseLessons;

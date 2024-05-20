@@ -32,7 +32,7 @@ const CourseOnlinePrice = ({
 	id,
 	successUpdate,
 }: {
-	onlinePrice: string;
+	onlinePrice: number;
 	id: string;
 	successUpdate: any;
 }) => {
@@ -72,8 +72,13 @@ const CourseOnlinePrice = ({
 				description: "You have successfully updated the course price😁",
 			});
 			successUpdate(res.data);
-		} catch (error) {
+		} catch (error: any) {
 			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
 		} finally {
 			setLoading(false);
 		}
@@ -146,7 +151,13 @@ const CourseOnlinePrice = ({
 				</div>
 			) : (
 				<div>
-					<p className="text-sm font-light italic">No price</p>
+					{onlinePrice ? (
+						<p className="text-sm">#{onlinePrice}</p>
+					) : (
+						<p className="text-sm italic font-light">
+							No online price
+						</p>
+					)}
 				</div>
 			)}
 		</div>
