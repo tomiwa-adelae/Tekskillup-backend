@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-
-import { setCredentials } from "../../../redux/features/auth/authSlice";
-// import { AppDispatch, RootState } from "@/redux/store";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setCredentials } from "@/app/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
 	email: z.string().email().min(2, { message: "Email is required!" }),
@@ -29,10 +31,19 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
-	const dispatch = useAppDispatch();
+	const { toast } = useToast();
+	const dispatch = useDispatch();
+	const router = useRouter();
 
-	const userInfo = useAppSelector((state) => state.auth);
-	console.log(userInfo);
+	const { userInfo } = useSelector((state: any) => state.auth);
+
+	const [loading, setLoading] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (userInfo) {
+			return router.push("/");
+		}
+	}, [userInfo, router]);
 
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -45,18 +56,36 @@ const LoginForm = () => {
 
 	// 2. Define a submit handler.
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+		setLoading(true);
+		const config = {
+			headers: {
+				"Content-type": "application/json",
+			},
+			withCredentials: true,
+		};
 
-		// const res = await axios
-
-		const res = await axios.post(
-			"http://localhost:5000/api/users/auth",
-			values
-		);
-		console.log(res);
-		// dispatch(setCredentials({ name: "Tomiwa" }));
+		try {
+			const res = await axios.post(
+				`${BASE_URL}${USERS_URL}/auth`,
+				values,
+				config
+			);
+			dispatch(setCredentials({ ...res.data }));
+			setLoading(false);
+			toast({
+				description: "Login successfully!",
+			});
+			router.push("/");
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -103,8 +132,16 @@ const LoginForm = () => {
 					<Button
 						className="bg-green-200 w-full font-semibold uppercase"
 						type="submit"
+						disabled={loading}
 					>
-						Login
+						{loading ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+								Please wait
+							</>
+						) : (
+							"Login"
+						)}
 					</Button>
 					<Link
 						href="/reset-password"

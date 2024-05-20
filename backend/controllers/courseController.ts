@@ -44,7 +44,12 @@ const getCoursesByAdmin = asyncHandler(async (req: Request, res: Response) => {
 const getCourseById = asyncHandler(async (req: Request, res: Response) => {
 	const course = await Course.findById(req.params.id).sort({ createdAt: -1 });
 
-	res.status(200).json(course);
+	if (course) {
+		res.status(200).json(course);
+	} else {
+		res.status(400);
+		throw new Error("Internal server error!");
+	}
 });
 
 // @desc    Create a new course by admin

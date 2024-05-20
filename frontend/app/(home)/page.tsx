@@ -9,7 +9,7 @@ import UpcomingClasses from "./_components/UpcomingClasses";
 import WhereGraduatesWorks from "@/components/WhereGraduatesWorks";
 import { StudentTestimonials } from "@/components/StudentTestimonials";
 
-export default function Home() {
+const Home = async () => {
 	return (
 		<>
 			<Showcase />
@@ -34,4 +34,6 @@ export default function Home() {
 			/>
 		</>
 	);
-}
+};
+
+export default Home;

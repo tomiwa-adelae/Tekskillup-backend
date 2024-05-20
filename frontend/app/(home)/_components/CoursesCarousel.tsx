@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 
@@ -29,9 +30,13 @@ const CoursesCarousel = ({ courses }: any) => {
 				{courses.map(
 					(
 						course: {
-							image: string;
+							_id: string;
+							user: string;
 							title: string;
+							isPublished: boolean;
+							lessons: {}[];
 							description: string;
+							image: string;
 						},
 						index: number
 					) => (
@@ -41,28 +46,30 @@ const CoursesCarousel = ({ courses }: any) => {
 						>
 							<div
 								key={index}
-								className="flex flex-col items-center justify-center py-8 px-4 rounded-md"
+								className="flex flex-col items-center justify-center py-8 px-4 rounded-md gap-6"
 							>
 								<Image
 									src={course.image}
 									alt={course.title}
 									height={1000}
 									width={1000}
-									className="w-24 lg:w-36"
+									className="aspect-video object-cover rounded-lg"
 								/>
-								<div>
-									<h4 className="text-green-400 mt-3 text-lg font-medium">
+								<div className="space-y-4">
+									<h4 className="text-green-400 text-lg font-medium md:text-2xl">
 										{course.title}
 									</h4>
-									<p className="text-xs mt-4">
+									<p className="text-xs">
 										{course.description}
 									</p>
 								</div>
 								<Button
-									className="transition ease-in-out bg-transparent mt-6 px-6 outline outline-1 outline-green-400 text-green-400 hover:bg-green-400 uppercase hover:text-white"
+									className="transition ease-in-out bg-transparent px-6 outline outline-1 outline-green-400 text-green-400 hover:bg-green-400 uppercase hover:text-white"
 									asChild
 								>
-									<Link href="/">View course</Link>
+									<Link href={`/our-courses/${course._id}`}>
+										View course
+									</Link>
 								</Button>
 							</div>
 						</CarouselItem>

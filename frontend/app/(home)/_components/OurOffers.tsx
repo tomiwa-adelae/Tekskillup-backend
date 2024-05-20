@@ -1,61 +1,30 @@
-"use client";
 import React from "react";
 
 import CoursesCarousel from "./CoursesCarousel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
+import axios from "axios";
 
-interface CoursesProps {
-	image: string;
-	title: string;
-	description: string;
+async function fetchPublishedCourses() {
+	const res = await axios(`${BASE_URL}${COURSES_URL}/published`);
+	return await res.data;
 }
 
-const OurOffers = () => {
-	const courses: CoursesProps[] = [
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-		{
-			image: "/pace-img.png",
-			title: "Go at your pace",
-			description:
-				"Lorem ipsum, dolor sit amet consectetur adipisicingelit. Praesentium, vitae!",
-		},
-	];
+interface PublishedCoursesProps {
+	_id: string;
+	user: string;
+	title: string;
+	isPublished: boolean;
+	lessons: {}[];
+	description: string;
+	image: string;
+}
+[];
+
+const OurOffers = async () => {
+	const publishedCourses: PublishedCoursesProps[] =
+		await fetchPublishedCourses();
 
 	return (
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
@@ -73,7 +42,7 @@ const OurOffers = () => {
 						molestias corporis explicabo magni adipisci placeat at.
 					</p>
 
-					<CoursesCarousel courses={courses} />
+					<CoursesCarousel courses={publishedCourses} />
 					<Button
 						className="bg-green-400 font-semibold px-12 py-8 mt-8 uppercase shadow"
 						asChild

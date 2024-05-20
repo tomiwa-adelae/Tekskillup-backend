@@ -1,7 +1,15 @@
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 
-const NextEncounter = () => {
+const NextEncounter = ({
+	title,
+	weekendStartDate,
+	weekdayStartDate,
+}: {
+	title: string;
+	weekendStartDate: Date;
+	weekdayStartDate: Date;
+}) => {
 	return (
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
 			<div className="container">
@@ -10,7 +18,7 @@ const NextEncounter = () => {
 					style={{ backgroundImage: `url(/phone-icon.png)` }}
 				>
 					<h3 className="text-2xl md:text-3xl mb-6">
-						Next user interface & UI/UX design class is:
+						Next {title} class is:
 					</h3>
 					<div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
 						<div className="space-y-2">
