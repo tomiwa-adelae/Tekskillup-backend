@@ -85,7 +85,7 @@ const CourseOnlinePrice = ({
 	};
 
 	return (
-		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
+		<div className="bg-gray-100 p-4 md:p-8 rounded-lg grid-col-1 col-span-2">
 			<div className="flex items-center justify-between gap-4 mb-3">
 				<h4 className="text-lg md:text-xl">Online price</h4>
 				<Button

@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import React from "react";
+import Moment from "react-moment";
 
 const NextEncounter = ({
 	title,
@@ -7,8 +8,8 @@ const NextEncounter = ({
 	weekdayStartDate,
 }: {
 	title: string;
-	weekendStartDate: Date;
-	weekdayStartDate: Date;
+	weekendStartDate: string;
+	weekdayStartDate: string;
 }) => {
 	return (
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
@@ -22,16 +23,24 @@ const NextEncounter = ({
 					</h3>
 					<div className="flex flex-col items-start justify-between lg:flex-row lg:items-center">
 						<div className="space-y-2">
-							<h4 className="text-lg md:text-xl">May 13, 2024</h4>
+							<h4 className="text-lg md:text-xl">
+								<Moment format="DD-MMM-YYYY">
+									{weekendStartDate}
+								</Moment>
+							</h4>
 							<p className="text-slate-100 text-xs md:text-sm lg:text-base">
-								Weekend classes: Monday - Friday (10am - 5pm)
+								Weekend classes: Saturday & Sunday (10am - 5pm)
 							</p>
 						</div>
 						<Separator className="my-4 lg:hidden" />
 						<div className="space-y-2">
-							<h4 className="text-lg md:text-xl">May 13, 2024</h4>
+							<h4 className="text-lg md:text-xl">
+								<Moment format="DD-MMM-YYYY">
+									{weekdayStartDate}
+								</Moment>
+							</h4>
 							<p className="text-slate-100 text-xs md:text-sm lg:text-base">
-								Weekend classes: Monday - Friday (10am - 5pm)
+								Weekdays classes: Monday - Friday (10am - 5pm)
 							</p>
 						</div>
 					</div>

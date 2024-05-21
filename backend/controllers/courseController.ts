@@ -161,6 +161,7 @@ const publishCourse = asyncHandler(async (req: Request, res: Response) => {
 			weekdayPrice,
 			weekendStartDate,
 			weekdayStartDate,
+			lessons,
 		} = course;
 		if (
 			!title ||
@@ -170,7 +171,8 @@ const publishCourse = asyncHandler(async (req: Request, res: Response) => {
 			!weekendPrice ||
 			!weekdayPrice ||
 			!weekendStartDate ||
-			!weekdayStartDate
+			!weekdayStartDate ||
+			lessons.length === 0
 		) {
 			res.status(401);
 			throw new Error("Complete all fields!");

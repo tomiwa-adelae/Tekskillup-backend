@@ -12,11 +12,13 @@ const CourseHeader = ({
 	title,
 	isPublished,
 	completedText,
+	isComplete,
 	successUpdate,
 }: {
 	id: string;
 	title: string;
 	isPublished: boolean;
+	isComplete: boolean;
 	completedText: string;
 	successUpdate: any;
 }) => {
@@ -80,7 +82,7 @@ const CourseHeader = ({
 							"bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
 					)}
 					onClick={handlePublished}
-					disabled={loading}
+					disabled={loading || !isComplete}
 				>
 					<BadgeCheck className="h-4 w-4 mr-2" />
 					{loading ? (
@@ -89,7 +91,7 @@ const CourseHeader = ({
 							Please wait
 						</>
 					) : isPublished ? (
-						"Published"
+						"Unpublish"
 					) : (
 						"Publish"
 					)}

@@ -2,7 +2,12 @@ import { CircleCheckBig } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-const Lessons = () => {
+interface LessonProps {
+	_id: string;
+	content: string;
+}
+
+const Lessons = ({ lessons }: any) => {
 	return (
 		<div className="bg-white py-16">
 			<div className="container">
@@ -11,42 +16,15 @@ const Lessons = () => {
 				</h3>
 				<div className="flex flex-col-reverse gap-4 items-center lg:flex-row lg:justify-between mt-10">
 					<div className="space-y-6 flex-3">
-						<h5 className="text-sm md:text-base">
-							<CircleCheckBig className="text-green-400 inline mr-2" />
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Suscipit atque libero aliquid eligendi magnam
-							iste.
-						</h5>
-						<h5 className="text-sm md:text-base">
-							<CircleCheckBig className="text-green-400 inline mr-2" />
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Suscipit atque libero aliquid eligendi magnam
-							iste.
-						</h5>
-						<h5 className="text-sm md:text-base">
-							<CircleCheckBig className="text-green-400 inline mr-2" />
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Suscipit atque libero aliquid eligendi magnam
-							iste.
-						</h5>
-						<h5 className="text-sm md:text-base">
-							<CircleCheckBig className="text-green-400 inline mr-2" />
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Suscipit atque libero aliquid eligendi magnam
-							iste.
-						</h5>
-						<h5 className="text-sm md:text-base">
-							<CircleCheckBig className="text-green-400 inline mr-2" />
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Suscipit atque libero aliquid eligendi magnam
-							iste.
-						</h5>
-						<h5 className="text-sm md:text-base">
-							<CircleCheckBig className="text-green-400 inline mr-2" />
-							Lorem ipsum dolor sit amet consectetur adipisicing
-							elit. Suscipit atque libero aliquid eligendi magnam
-							iste.
-						</h5>
+						{lessons.map((lesson: LessonProps) => (
+							<h5
+								key={lesson._id}
+								className="text-sm md:text-base"
+							>
+								<CircleCheckBig className="text-green-400 inline mr-2" />
+								{lesson.content}
+							</h5>
+						))}
 					</div>
 					<div className="flex-auto flex items-center justify-center">
 						<Image

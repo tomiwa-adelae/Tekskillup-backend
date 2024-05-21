@@ -3,11 +3,24 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Button } from "./button";
+import Link from "next/link";
+import { CalendarClock } from "lucide-react";
+import { FaNairaSign } from "react-icons/fa6";
+import { Separator } from "./separator";
+import Moment from "react-moment";
+import Image from "next/image";
 
 type Tab = {
 	title: string;
-	value: string;
-	content?: string | React.ReactNode | any;
+	_id: string;
+	image: string;
+	description: string;
+	onlinePrice: number;
+	weekendPrice: number;
+	weekdayPrice: number;
+	weekendStartDate: string;
+	weekdayStartDate: string;
 };
 
 export const Tabs = ({
@@ -25,6 +38,7 @@ export const Tabs = ({
 }) => {
 	const [active, setActive] = useState<Tab>(propTabs[0]);
 	const [tabs, setTabs] = useState<Tab[]>(propTabs);
+	console.log(tabs);
 
 	const moveSelectedTabToTop = (idx: number) => {
 		const newTabs = [...propTabs];
@@ -41,7 +55,7 @@ export const Tabs = ({
 			<div className="w-full flex items-center justify-center">
 				<div
 					className={cn(
-						"flex flex-row flex-wrap justify-start  items-start gap-6 md:justify-between [perspective:1000px] relative w-full",
+						"flex flex-row flex-wrap justify-start  items-start gap-6 px-8 [perspective:1000px] relative w-full",
 						containerClassName
 					)}
 				>
@@ -61,7 +75,7 @@ export const Tabs = ({
 								transformStyle: "preserve-3d",
 							}}
 						>
-							{active.value === tab.value && (
+							{active?._id === tab?._id && (
 								<motion.div
 									layoutId="clickedbutton"
 									transition={{
@@ -86,7 +100,7 @@ export const Tabs = ({
 			<FadeInDiv
 				tabs={tabs}
 				active={active}
-				key={active.value}
+				key={active?._id}
 				hovering={hovering}
 				className={cn("mt-24 md:mt-16", contentClassName)}
 			/>
@@ -106,14 +120,14 @@ export const FadeInDiv = ({
 	hovering?: boolean;
 }) => {
 	const isActive = (tab: Tab) => {
-		return tab.value === tabs[0].value;
+		return tab._id === tabs[0]._id;
 	};
 	return (
 		<div className="relative w-full h-full">
 			{tabs.map((tab, idx) => (
 				<motion.div
-					key={tab.value}
-					layoutId={tab.value}
+					key={tab._id}
+					layoutId={tab._id}
 					style={{
 						scale: 1 - idx * 0.1,
 						top: hovering ? idx * -50 : 0,
@@ -128,7 +142,89 @@ export const FadeInDiv = ({
 						className
 					)}
 				>
-					{tab.content}
+					<div className="w-full rounded-2xl py-8 px-4 md:px-8 font-bold shadow-lg bg-gradient-to-r from-green-100 via-gray-100 to-green-100 mb-80 text-black">
+						<div className="flex flex-col md:flex-row items-start justify-between gap-6">
+							<div className="flex-1 md:flex-none">
+								<Image
+									src={tab.image}
+									alt={tab.title}
+									height={1000}
+									width={1000}
+									className="aspect-video md:w-80 object-cover rounded-xl"
+								/>
+							</div>
+							<div className="flex-1">
+								<h3 className="text-3xl md:text-4xl font-normal">
+									{tab.title}
+								</h3>
+								<p className="text-xs font-normal md:text-sm mt-4">
+									{tab.description}
+								</p>
+							</div>
+						</div>
+						<Separator className="my-8 bg-green-400" />
+						<div className="flex flex-col lg:flex-row items-start justify-start lg:justify-between font-normal">
+							<div>
+								<h6 className="font-semibold text-xs md:text-sm uppercase mb-4">
+									Online
+								</h6>
+								<div className="space-y-2 md:space-y-4">
+									<h5 className="text-sm md:text-base">
+										<FaNairaSign className="inline text-green-400 mr-2" />{" "}
+										Price: #{tab.onlinePrice}
+									</h5>
+								</div>
+							</div>
+							<Separator className="my-8 lg:hidden bg-green-400" />
+							<div>
+								<h6 className="font-semibold text-xs md:text-sm uppercase mb-4">
+									Weekdays
+								</h6>
+								<div className="space-y-2 md:space-y-4">
+									<h5 className="text-sm md:text-base">
+										<CalendarClock className="inline text-green-400 mr-2" />{" "}
+										Start date:
+										<Moment format="DD-MMM-YYYY">
+											{tab.weekdayStartDate}
+										</Moment>
+									</h5>
+									<h5 className="text-sm md:text-base">
+										<FaNairaSign className="inline text-green-400 mr-2" />{" "}
+										Price: #{tab.weekdayPrice}
+									</h5>
+								</div>
+							</div>
+							<Separator className="my-8 lg:hidden bg-green-400" />
+							<div>
+								<h6 className="font-semibold text-xs md:text-sm uppercase mb-4">
+									Weekend
+								</h6>
+								<div className="space-y-2 md:space-y-4">
+									<h5 className="text-sm md:text-base">
+										<CalendarClock className="inline text-green-400 mr-2" />{" "}
+										Start date:{" "}
+										<Moment format="DD-MMM-YYYY">
+											{tab.weekendStartDate}
+										</Moment>
+									</h5>
+									<h5 className="text-sm md:text-base">
+										<FaNairaSign className="inline text-green-400 mr-2" />{" "}
+										Price: #{tab.weekendPrice}
+									</h5>
+								</div>
+							</div>
+						</div>
+						<div className="flex items-center justify-end mt-6">
+							<Button
+								className="bg-green-400 font-semibold py-8 px-8  hover:bg-inherit uppercase"
+								asChild
+							>
+								<Link href={`/our-courses/${tab._id}`}>
+									View course details
+								</Link>
+							</Button>
+						</div>
+					</div>
 				</motion.div>
 			))}
 		</div>

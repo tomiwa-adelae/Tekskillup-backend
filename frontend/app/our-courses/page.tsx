@@ -1,7 +1,6 @@
 import React from "react";
 import { Showcase } from "./_components/Showcase";
 import { CoursesTabs } from "./_components/CoursesTabs";
-import Footer from "@/components/Footer";
 
 const page = () => {
 	return (

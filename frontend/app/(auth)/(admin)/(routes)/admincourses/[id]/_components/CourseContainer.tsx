@@ -16,6 +16,7 @@ import CourseWeekdayStartDate from "./CourseWeekdayStartDate";
 import CourseWeekendPrice from "./CourseWeekendPrice";
 import CourseWeekdayPrice from "./CourseWeekdayPrice";
 import CourseImage from "./CourseImage";
+import { Banner } from "./Banner";
 
 interface CourseProps {
 	_id: string;
@@ -66,23 +67,26 @@ const CourseContainer = ({ id }: { id: string }) => {
 		course?.weekdayPrice,
 		course?.weekendStartDate,
 		course?.weekdayStartDate,
+		course?.lessons.length !== 0,
 	];
 
 	const totalFields = requiredFields.length;
 	const completedFields = requiredFields.filter(Boolean).length;
 	const completedText = `${completedFields}/${totalFields}`;
 
-	console.log(completedText);
+	const isComplete = requiredFields.every(Boolean);
 
 	if (loading) return <p>Loading...</p>;
 
 	return (
 		<div>
+			{!course?.isPublished && <Banner />}
 			<CourseHeader
 				id={course?._id!}
 				title={course?.title!}
 				isPublished={course?.isPublished!}
 				completedText={completedText}
+				isComplete={isComplete}
 				successUpdate={(updatedCourse: CourseProps) => {
 					setCourse(updatedCourse);
 				}}

@@ -5,7 +5,7 @@ import StartToday from "./_components/StartToday";
 import NeedHelp from "@/components/NeedHelp";
 import ProcessShowcase from "./_components/ProcessShowcase";
 import OurFacilities from "./_components/OurFacilities";
-import UpcomingClasses from "./_components/UpcomingClasses";
+import NewlyAddedCourse from "./_components/NewlyAddedCourse";
 import WhereGraduatesWorks from "@/components/WhereGraduatesWorks";
 import { StudentTestimonials } from "@/components/StudentTestimonials";
 
@@ -20,7 +20,7 @@ const Home = async () => {
 			<StartToday />
 			<ProcessShowcase />
 			<OurFacilities />
-			<UpcomingClasses />
+			<NewlyAddedCourse />
 			<NeedHelp
 				helpTitle="Need help choosing a course? Talk to an expert"
 				helpDescription="Lorem ipsum dolor sit amet consectetur, adipisicing
