@@ -9,6 +9,9 @@ import { BASE_URL, COURSES_URL, USERS_URL } from "@/app/slices/constants";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import UserAnalyticsCharts from "./UserAnalyticsCharts";
+import RegisteredCoursesAnalyticsCharts from "./RegisteredCoursesAnalyticsCharts";
+import { Card } from "@/components/ui/card";
 
 interface Courses {
 	_id: string;
@@ -101,131 +104,118 @@ const DashboardBoxes = () => {
 			</h3>
 			<div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 				{courses && (
-					<Link
-						href="/admincourses"
-						className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 md:col-span-1 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100"
-					>
-						<Image
-							src={"/pace-img.png"}
-							alt="Test"
-							height={1000}
-							width={1000}
-							className="w-20 h-20 md:w-28 md:h-28 object-cover"
-						/>
-						<h4 className="text-xl md:text-2xl text-green-400">
-							Courses
-						</h4>
-						<h4 className="font-semibold text-lg md:text-xl">
-							{courses?.length}
-						</h4>
-					</Link>
-				)}
-
-				{users && (
-					<Link
-						href="/adminusers"
-						className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 md:col-span-1 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100"
-					>
-						<Image
-							src={"/pace-img.png"}
-							alt="Test"
-							height={1000}
-							width={1000}
-							className="w-20 h-20 md:w-28 md:h-28 object-cover"
-						/>
-						<h4 className="text-xl md:text-2xl text-green-400">
-							Users
-						</h4>
-						<h4 className="font-semibold text-lg md:text-xl">
-							{users?.length}
-						</h4>
-					</Link>
-				)}
-
-				{users && (
-					<div className="relative transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100">
-						<Badge
-							className="absolute top-5 text-green-400 right-5 border-dashed border-green-400 p-2 md:p-4"
-							variant="outline"
+					<Card className="flex items-center justify-center hover:bg-slate-50">
+						<Link
+							href="/admincourses"
+							className="flex flex-col items-center justify-center gap-6 col-span-2 md:col-span-1"
 						>
-							Latest user
-						</Badge>
-						<div className="flex items-center gap-4 justify-start w-full">
 							<Image
-								src={
-									users[0]?.image ||
-									"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-								}
-								alt={users[0]?.firstName || "Picture"}
+								src={"/pace-img.png"}
+								alt="Test"
 								height={1000}
 								width={1000}
-								className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full"
+								className="w-20 h-20 md:w-28 md:h-28 object-cover"
 							/>
-							<div className="space-y-2">
-								<h4 className="text-lg md:text 2xl text-green-400">
-									{users[0]?.firstName}
-									{users[0]?.lastName}
-								</h4>
-								<p className="text-sm">{users[0]?.email}</p>
-							</div>
-						</div>
-						<div className="w-full flex items-center justify-between gap-4">
-							<Button
-								className="transition ease-in-out uppercase bg-green-400 hover:bg-green-500 w-full"
-								asChild
-							>
-								<a
-									target="_blank"
-									rel="noopener noreferrer"
-									href={`mailto:${users[0]?.email}`}
-								>
-									<Mail className="mr-2 h-4 w-4" />
-									Email
-								</a>
-							</Button>
-							<Button
-								className="transition ease-in-out uppercase outline outline-green-100 bg-transparent text-green-400 hover:bg-green-100 w-full"
-								asChild
-							>
-								<Link href={`/adminusers/${users[0]?._id}`}>
-									<Folder className="mr-2 h-4 w-4" />
-									Visit profile
-								</Link>
-							</Button>
-						</div>
-					</div>
+							<h4 className="text-xl md:text-2xl text-green-400">
+								Courses
+							</h4>
+							<h4 className="font-semibold text-lg md:text-xl">
+								{courses?.length}
+							</h4>
+						</Link>
+					</Card>
 				)}
 
-				<Link
-					href="/adminusers"
-					className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100"
-				>
-					<Image
-						src={"/pace-img.png"}
-						alt="Test"
-						height={1000}
-						width={1000}
-						className="w-20 h-20 md:w-28 md:h-28 object-cover"
-					/>
-					<h4 className="text-xl md:text-2xl text-green-400">
-						Courses
-					</h4>
-					<h4>7</h4>
-				</Link>
+				{users && (
+					<Card className="flex items-center justify-center hover:bg-slate-50">
+						<Link
+							href="/adminusers"
+							className="flex flex-col items-center justify-center gap-6 col-span-2 md:col-span-1"
+						>
+							<Image
+								src={"/pace-img.png"}
+								alt="Test"
+								height={1000}
+								width={1000}
+								className="w-20 h-20 md:w-28 md:h-28 object-cover"
+							/>
+							<h4 className="text-xl md:text-2xl text-green-400">
+								Users
+							</h4>
+							<h4 className="font-semibold text-lg md:text-xl">
+								{users?.length}
+							</h4>
+						</Link>
+					</Card>
+				)}
 
-				<div className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 col-span-2 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100">
-					<Image
-						src={"/pace-img.png"}
-						alt="Test"
-						height={1000}
-						width={1000}
-						className="w-20 h-20 md:w-28 md:h-28 object-cover"
-					/>
-					<h4 className="text-xl md:text-2xl text-green-400">
-						Courses
-					</h4>
-					<h4>7</h4>
-				</div>
+				{users && (
+					<Card className="flex items-center justify-center hover:bg-slate-50 col-span-2">
+						<div className="relative w-full flex flex-col items-center justify-center gap-6  py-6 px-8">
+							<Badge
+								className="absolute top-5 text-green-400 right-5 border-dashed border-green-400 p-2 md:p-4"
+								variant="outline"
+							>
+								Latest user
+							</Badge>
+							<div className="flex items-center gap-4 justify-start w-full">
+								<Image
+									src={
+										users[0]?.image ||
+										"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+									}
+									alt={users[0]?.firstName || "Picture"}
+									height={1000}
+									width={1000}
+									className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full"
+								/>
+								<div className="space-y-2">
+									<h4 className="text-lg md:text 2xl text-green-400">
+										{users[0]?.firstName}
+										{users[0]?.lastName}
+									</h4>
+									<p className="text-sm">{users[0]?.email}</p>
+								</div>
+							</div>
+							<div className="w-full flex items-center justify-between gap-4">
+								<Button
+									className="transition ease-in-out uppercase bg-green-400 hover:bg-green-500 w-full"
+									asChild
+								>
+									<a
+										target="_blank"
+										rel="noopener noreferrer"
+										href={`mailto:${users[0]?.email}`}
+									>
+										<Mail className="mr-2 h-4 w-4" />
+										Email
+									</a>
+								</Button>
+								<Button
+									className="transition ease-in-out uppercase outline outline-green-100 bg-transparent text-green-400 hover:bg-green-100 w-full"
+									asChild
+								>
+									<Link href={`/adminusers/${users[0]?._id}`}>
+										<Folder className="mr-2 h-4 w-4" />
+										Visit profile
+									</Link>
+								</Button>
+							</div>
+						</div>
+					</Card>
+				)}
+
+				<Card className="flex items-center justify-center col-span-2 hover:bg-slate-50">
+					<div className="flex w-full flex-col items-center justify-center gap-6 py-6 px-8">
+						<UserAnalyticsCharts users={users} />
+					</div>
+				</Card>
+
+				<Card className="flex items-center justify-center col-span-2 hover:bg-slate-50">
+					<div className="flex w-full flex-col items-center justify-center gap-6 py-6 px-8">
+						<RegisteredCoursesAnalyticsCharts users={users} />
+					</div>
+				</Card>
 			</div>
 		</div>
 	);
