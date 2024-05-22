@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import SearchBox from "./_components/SearchBox";
 import Users from "./_components/Users";
 
 const page = () => {
@@ -18,8 +17,6 @@ const page = () => {
 				>
 					<Link href="/admindashboard">Back</Link>
 				</Button>
-
-				<SearchBox />
 				<Users />
 			</div>
 		</div>

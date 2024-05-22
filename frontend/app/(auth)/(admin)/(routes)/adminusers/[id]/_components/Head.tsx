@@ -2,7 +2,17 @@ import { CircleUserRound } from "lucide-react";
 import React from "react";
 import DropDown from "./DropDown";
 
-const Head = () => {
+const Head = ({
+	_id,
+	firstName,
+	lastName,
+	email,
+}: {
+	_id: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+}) => {
 	return (
 		<div>
 			<div>
@@ -13,16 +23,16 @@ const Head = () => {
 							strokeWidth={0.75}
 							className="inline text-green-400 w-30 h-30"
 						/>
-						<div className="space-y-2 text-center">
-							<h1 className="text-green-400 text-xl md:text-xl lg:text-3xl font-semibold">
-								John Doe
+						<div className="space-y-2 text-center md:text-left">
+							<h1 className="text-green-400 text-2xl lg:text-3xl font-semibold">
+								{firstName} {lastName}
 							</h1>
-							<h5 className="text-sm">johndoe@gmail.com</h5>
+							<h5 className="text-sm">{email}</h5>
 						</div>
 					</div>
 
 					<div className=" mt-4 md:mt-0">
-						<DropDown />
+						<DropDown id={_id} />
 					</div>
 				</div>
 			</div>

@@ -5,6 +5,7 @@ import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import SearchBox from "./SearchBox";
 
 interface Courses {
 	_id: string;
@@ -56,20 +57,26 @@ const Courses = () => {
 	if (loading) return <p>Loading</p>;
 
 	return (
-		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-			{courses.map((course) => (
-				<Course
-					key={course._id}
-					id={course._id}
-					title={course.title}
-					image={course.image}
-					onlinePrice={course.onlinePrice}
-					weekendPrice={course.weekendPrice}
-					weekdaysPrice={course.weekdaysPrice}
-					isPublished={course.isPublished}
-				/>
-			))}
-		</div>
+		<>
+			<SearchBox
+				successUpdate={(data: CoursesProps) => setCourses(data)}
+			/>
+
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+				{courses.map((course) => (
+					<Course
+						key={course._id}
+						id={course._id}
+						title={course.title}
+						image={course.image}
+						onlinePrice={course.onlinePrice}
+						weekendPrice={course.weekendPrice}
+						weekdaysPrice={course.weekdaysPrice}
+						isPublished={course.isPublished}
+					/>
+				))}
+			</div>
+		</>
 	);
 };
 

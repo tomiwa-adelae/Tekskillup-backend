@@ -11,6 +11,7 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware";
 
 import courseRoutes from "./routes/courseRoutes";
 import userRoutes from "./routes/userRoutes";
+import registerCourseRoutes from "./routes/registerCourseRoutes";
 
 const app: Express = express();
 
@@ -28,6 +29,7 @@ app.use(cookieParser());
 // API Routes
 app.use("/api/courses", courseRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/register-courses", registerCourseRoutes);
 
 app.get("/", (req: Request, res: Response) => {
 	res.send(" API is up and running... ");

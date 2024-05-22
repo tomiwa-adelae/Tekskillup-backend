@@ -12,8 +12,9 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { DeleteUserAlertDialog } from "./DeleteUserAlertModal";
 
-const DropDown = () => {
+const DropDown = ({ id }: { id: string }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -32,10 +33,9 @@ const DropDown = () => {
 					<span>Email user</span>
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-					<Trash2 className="mr-2 h-4 w-4" />
-					<span>Delete user</span>
-				</DropdownMenuItem>
+				{/* <DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100"> */}
+				<DeleteUserAlertDialog id={id} />
+				{/* </DropdownMenuItem> */}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

@@ -28,10 +28,20 @@ const getPublishedCourses = asyncHandler(
 const getCoursesByAdmin = asyncHandler(async (req: Request, res: Response) => {
 	const keyword = req.query.keyword
 		? {
-				title: {
-					$regex: req.query.keyword,
-					$options: "i",
-				},
+				$or: [
+					{
+						title: {
+							$regex: req.query.keyword,
+							$options: "i",
+						},
+					},
+					{
+						description: {
+							$regex: req.query.keyword,
+							$options: "i",
+						},
+					},
+				],
 		  }
 		: {};
 	const courses = await Course.find({ ...keyword }).sort({ createdAt: -1 });

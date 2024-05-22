@@ -7,13 +7,21 @@ import React from "react";
 
 interface UserProps {
 	id: string;
-	name: string;
+	firstName: string;
+	lastName: string;
 	image: string;
 	email: string;
 	phoneNumber: string;
 }
 
-const User = ({ id, name, email, image, phoneNumber }: UserProps) => {
+const User = ({
+	id,
+	firstName,
+	lastName,
+	email,
+	image,
+	phoneNumber,
+}: UserProps) => {
 	return (
 		<div className="transition duration-100 ease-in-out flex flex-col items-center justify-center gap-6 bg-gray-50 shadow-lg rounded-lg py-6 px-8 hover:bg-gray-100">
 			<div className="flex items-center gap-4 justify-start w-full md:text-center md:flex-col">
@@ -26,7 +34,7 @@ const User = ({ id, name, email, image, phoneNumber }: UserProps) => {
 				/>
 				<div className="space-y-2">
 					<h4 className="text-lg md:text 2xl text-green-400">
-						{name}
+						{firstName} {lastName}
 					</h4>
 					<p className="text-sm">{email}</p>
 					<p className="text-sm">{phoneNumber}</p>
@@ -46,7 +54,7 @@ const User = ({ id, name, email, image, phoneNumber }: UserProps) => {
 					className="transition ease-in-out uppercase outline outline-green-100 bg-transparent text-green-400 hover:bg-green-100 w-full"
 					asChild
 				>
-					<Link href={`/${id}`}>
+					<Link href={`/adminusers/${id}`}>
 						<Folder className="mr-2 h-4 w-4" />
 						Visit profile
 					</Link>

@@ -1,11 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import Head from "./_components/Head";
-import { Separator } from "@/components/ui/separator";
-import RegisteredCourses from "./_components/RegisteredCourses";
+import Wrapper from "./_components/Wrapper";
 
-const page = () => {
+const page = ({ params }: { params: { id: string } }) => {
 	return (
 		<div className="py-16 w-full dark:bg-black bg-white  dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.2] relative">
 			<div className="container">
@@ -14,13 +12,9 @@ const page = () => {
 					asChild
 					variant="ghost"
 				>
-					<Link href="/">Back</Link>
+					<Link href="/adminusers">Back</Link>
 				</Button>
-				<div>
-					<Head />
-					<Separator className="my-16" />
-					<RegisteredCourses />
-				</div>
+				<Wrapper id={params.id} />
 			</div>
 		</div>
 	);
