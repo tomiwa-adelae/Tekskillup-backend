@@ -187,7 +187,7 @@ const DashboardBoxes = () => {
 								className="transition ease-in-out uppercase outline outline-green-100 bg-transparent text-green-400 hover:bg-green-100 w-full"
 								asChild
 							>
-								<Link href="/send-email">
+								<Link href={`/adminusers/${users[0]?._id}`}>
 									<Folder className="mr-2 h-4 w-4" />
 									Visit profile
 								</Link>

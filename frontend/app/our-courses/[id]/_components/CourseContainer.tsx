@@ -56,7 +56,11 @@ const CourseContainer = ({ id }: { id: string }) => {
 
 	return (
 		<div>
-			<Showcase title={course.title} description={course.description} />
+			<Showcase
+				id={course._id}
+				title={course.title}
+				description={course.description}
+			/>
 			<NextEncounter
 				title={course.title}
 				weekendStartDate={course.weekendStartDate}

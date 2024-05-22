@@ -12,8 +12,31 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import { logout } from "@/app/slices/authSlice";
 
 const DropDown = () => {
+	const router = useRouter();
+	const { toast } = useToast();
+	const dispatch = useDispatch();
+	const handleLogout = async () => {
+		try {
+			await axios.post(`${BASE_URL}${USERS_URL}/logout`);
+			dispatch(logout({ message: "logout" }));
+			router.push("/login");
+		} catch (error: any) {
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		}
+	};
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -41,7 +64,10 @@ const DropDown = () => {
 					</DropdownMenuItem>
 				</Link>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+				<DropdownMenuItem
+					onClick={handleLogout}
+					className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100"
+				>
 					<LogOut className="mr-2 h-4 w-4" />
 					<span>Log out</span>
 				</DropdownMenuItem>

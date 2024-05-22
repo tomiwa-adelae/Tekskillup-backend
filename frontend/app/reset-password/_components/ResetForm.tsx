@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,12 +17,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
 	email: z.string().email().min(2, { message: "Email is required!" }),
 });
 
 const ResetForm = () => {
+	const { toast } = useToast();
+	const router = useRouter();
+	const [loading, setLoading] = useState<boolean>(false);
+
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -32,11 +41,39 @@ const ResetForm = () => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-	}
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		setLoading(true);
+		const config = {
+			headers: {
+				"Content-type": "application/json",
+			},
+			withCredentials: true,
+		};
+
+		try {
+			await axios.post(
+				`${BASE_URL}${USERS_URL}/reset-password`,
+				values,
+				config
+			);
+			setLoading(false);
+			toast({
+				title: "Successful!",
+				description:
+					"Please enter the code we just sent to your email inbox😁",
+			});
+			router.push(`/verify-code?email=${values.email}`);
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div className="bg-green-400 shadow-lg rounded-2xl py-12 px-8 text-white">
@@ -71,8 +108,16 @@ const ResetForm = () => {
 					<Button
 						className="bg-green-200 w-full font-semibold uppercase"
 						type="submit"
+						disabled={loading}
 					>
-						Continue
+						{loading ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+								Please wait
+							</>
+						) : (
+							"Continue"
+						)}
 					</Button>
 				</form>
 			</Form>

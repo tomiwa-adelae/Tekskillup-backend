@@ -1,11 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Head from "./Head";
-import RegisteredCourses from "./RegisteredCourses";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
-import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import {
+	BASE_URL,
+	REGISTERED_COURSES_URL,
+	USERS_URL,
+} from "@/app/slices/constants";
 import { Separator } from "@/components/ui/separator";
+import RegisteredCourses from "./RegisteredCourses";
 
 interface UsersProps {
 	firstName: string;
@@ -25,18 +29,10 @@ const Wrapper = ({ id }: { id: string }) => {
 		const fetchUserDetails = async () => {
 			try {
 				setLoading(true);
-				const config = {
-					headers: {
-						"Content-type": "application/json",
-					},
+				const res = await axios.get(`${BASE_URL}${USERS_URL}/${id}`, {
 					withCredentials: true,
-				};
-				const res = await axios(
-					`${BASE_URL}${USERS_URL}/${id}`,
-					config
-				);
-				setUser({ ...res.data });
-				setLoading(false);
+				});
+				setUser(res.data);
 			} catch (error: any) {
 				setLoading(false);
 				toast({
@@ -48,10 +44,9 @@ const Wrapper = ({ id }: { id: string }) => {
 				setLoading(false);
 			}
 		};
+
 		fetchUserDetails();
 	}, [id, toast]);
-
-	console.log(user);
 
 	if (loading) return <p>Loading...</p>;
 
@@ -62,9 +57,14 @@ const Wrapper = ({ id }: { id: string }) => {
 				firstName={user?.firstName!}
 				lastName={user?.lastName!}
 				email={user?.email!}
+				image={user?.image!}
 			/>
 			<Separator className="my-16" />
-			<RegisteredCourses />
+			<RegisteredCourses
+				id={id}
+				firstName={user?.firstName!}
+				email={user?.email!}
+			/>
 		</div>
 	);
 };

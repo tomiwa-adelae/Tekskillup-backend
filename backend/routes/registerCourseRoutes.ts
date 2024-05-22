@@ -3,7 +3,7 @@ import express from "express";
 import {
 	getMyCourses,
 	getRegisteredCoursesByAdmin,
-	getRegisteredCoursesById,
+	getUserRegisteredCoursesByUserId,
 	registerCourse,
 } from "../controllers/registerCourseController";
 import { admin, protect } from "../middleware/authMiddleware";
@@ -14,7 +14,7 @@ router
 	.route("/")
 	.get(protect, admin, getRegisteredCoursesByAdmin)
 	.post(protect, registerCourse);
-router.route("/:id").get(protect, admin, getRegisteredCoursesById);
+router.route("/:id").get(protect, admin, getUserRegisteredCoursesByUserId);
 router.route("/mine/personal").get(protect, getMyCourses);
 
 export default router;

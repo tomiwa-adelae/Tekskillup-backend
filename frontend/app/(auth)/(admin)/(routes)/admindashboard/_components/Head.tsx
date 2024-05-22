@@ -1,30 +1,48 @@
 "use client";
 import { CircleUserRound } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DropDown from "./DropDown";
 
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import Moment from "react-moment";
+
+interface UserProps {
+	id: string;
+	firstName: string;
+	lastName: string;
+	image: string;
+	email: string;
+	phoneNumber: string;
+}
 
 const Head = () => {
+	const [user, setUser] = useState<UserProps>();
 	const { userInfo } = useSelector((state: any) => state.auth);
+
+	useEffect(() => {
+		if (!userInfo) {
+			return;
+		}
+		setUser(userInfo);
+	}, [userInfo]);
+
+	if (!user) return <p>Loading...</p>;
 
 	return (
 		<div>
 			<h5 className="text-base font-medium text-green-400">
-				May 09, 2024
+				<Moment format="DD-MMM-YYYY">{Date.now()}</Moment>
 			</h5>
 			<div>
 				<div className="flex flex-col md:flex-row items-center justify-between my-8 gap-4">
 					<div className="flex flex-col md:flex-row items-center justify-start gap-4">
-						{/* <CircleUserRound
-							size={120}
-							strokeWidth={0.75}
-							className="inline text-green-400 w-30 h-30"
-						/> */}
 						<Image
-							src={userInfo?.image}
-							alt={userInfo?.firstName}
+							src={
+								userInfo?.image ||
+								"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+							}
+							alt={userInfo?.firstName || "USER"}
 							height={1000}
 							width={1000}
 							className="rounded-full w-40  object-cover"

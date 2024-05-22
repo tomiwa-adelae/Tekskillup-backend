@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
 	currentPassword: z
@@ -31,6 +37,10 @@ const formSchema = z.object({
 });
 
 const PasswordsForm = () => {
+	const router = useRouter();
+	const { toast } = useToast();
+	const [loading, setLoading] = useState<boolean>(false);
+
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -42,12 +52,48 @@ const PasswordsForm = () => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-	}
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		if (values.newPassword !== values.confirmPassword) {
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: "Passwords do not match!",
+			});
+		} else {
+			try {
+				setLoading(true);
 
+				const config = {
+					headers: {
+						"Content-type": "application/json",
+					},
+					withCredentials: true,
+				};
+
+				const res = await axios.put(
+					`${BASE_URL}${USERS_URL}/password`,
+					values,
+					config
+				);
+				setLoading(false);
+				toast({
+					title: "Success!",
+					description:
+						"You have successfully updated your password😁",
+				});
+				router.push("/profile");
+			} catch (error: any) {
+				setLoading(false);
+				toast({
+					variant: "destructive",
+					title: "Uh oh! Something went wrong.",
+					description: error.response.data.message,
+				});
+			} finally {
+				setLoading(false);
+			}
+		}
+	};
 	return (
 		<div>
 			<Form {...form}>
@@ -116,8 +162,16 @@ const PasswordsForm = () => {
 						<Button
 							className="bg-green-200 font-semibold uppercase"
 							type="submit"
+							disabled={loading}
 						>
-							Save changes
+							{loading ? (
+								<>
+									<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+									Please wait
+								</>
+							) : (
+								"Save changes"
+							)}
 						</Button>
 					</div>
 				</form>

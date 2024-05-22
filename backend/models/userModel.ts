@@ -37,6 +37,9 @@ const userSchema = new mongoose.Schema(
 			default:
 				"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
 		},
+		imageId: {
+			type: String,
+		},
 		isAdmin: {
 			type: Boolean,
 			default: false,

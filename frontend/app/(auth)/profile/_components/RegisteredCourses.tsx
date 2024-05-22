@@ -25,22 +25,23 @@ type CoursesProps = Courses[];
 
 const RegisteredCourses = () => {
 	const { toast } = useToast();
-	const router = useRouter();
 
 	const [courses, setCourses] = useState<CoursesProps>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	console.log(courses);
-
 	useEffect(() => {
 		const fetchAllCourses = async () => {
 			try {
+				const config = {
+					headers: {
+						"Content-type": "application/json",
+					},
+					withCredentials: true,
+				};
 				setLoading(true);
 				const res = await axios.get(
 					`${BASE_URL}${REGISTERED_COURSES_URL}/mine/personal`,
-					{
-						withCredentials: true,
-					}
+					config
 				);
 
 				setCourses(res.data);
@@ -57,7 +58,7 @@ const RegisteredCourses = () => {
 			}
 		};
 		fetchAllCourses();
-	}, [router, toast]);
+	}, [toast]);
 
 	if (loading) return <p>Loading</p>;
 
@@ -69,15 +70,18 @@ const RegisteredCourses = () => {
 					strokeWidth={0.75}
 					className="text-green-400 inline mr-2"
 				/>
-				Registered courses (3)
+				Registered courses ({courses.length})
 			</h3>
 			{courses.length === 0 && <NoCoursesAlert />}
 			<div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-				<Course />
-				<Course />
-				<Course />
-				<Course />
-				<Course />
+				{courses.map((course: any) => (
+					<Course
+						key={course._id}
+						title={course.course.title}
+						image={course.course.image}
+						createdAt={course.createdAt}
+					/>
+				))}
 			</div>
 		</div>
 	);

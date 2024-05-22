@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,11 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
 	newPassword: z.string().min(6, { message: "New password is required!" }),
@@ -25,6 +30,16 @@ const formSchema = z.object({
 });
 
 const UpdatePasswordForm = () => {
+	const searchParams = useSearchParams();
+
+	const id = searchParams.get("id");
+	const code = searchParams.get("code");
+	const email = searchParams.get("email");
+
+	const { toast } = useToast();
+	const router = useRouter();
+	const [loading, setLoading] = useState<boolean>(false);
+
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -35,11 +50,47 @@ const UpdatePasswordForm = () => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-	}
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		if (values.newPassword !== values.confirmPassword) {
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: "Passwords do not match!",
+			});
+		} else {
+			try {
+				setLoading(true);
+				const config = {
+					headers: {
+						"Content-type": "application/json",
+					},
+					withCredentials: true,
+				};
+				const newPassword = values.newPassword;
+				const confirmPassword = values.confirmPassword;
+				await axios.post(
+					`${BASE_URL}${USERS_URL}/update-password/${id}/${code}`,
+					{ id, code, newPassword, confirmPassword },
+					config
+				);
+				setLoading(false);
+				toast({
+					title: "Successful!",
+					description: "Please enter login with your new password😁",
+				});
+				router.push(`/login`);
+			} catch (error: any) {
+				setLoading(false);
+				toast({
+					variant: "destructive",
+					title: "Uh oh! Something went wrong.",
+					description: error.response.data.message,
+				});
+			} finally {
+				setLoading(false);
+			}
+		}
+	};
 
 	return (
 		<div className="bg-green-400 shadow-lg rounded-2xl py-12 px-8 text-white">
@@ -47,7 +98,7 @@ const UpdatePasswordForm = () => {
 				Update new password
 			</h3>
 			<p className="md:hidden text-center text-sm mb-4 text-slate-200">
-				Your email address is johndoe@gmail.com
+				Your email address is {email}
 			</p>
 			<Form {...form}>
 				<form
@@ -91,8 +142,16 @@ const UpdatePasswordForm = () => {
 					<Button
 						className="bg-green-200 w-full font-semibold uppercase"
 						type="submit"
+						disabled={loading}
 					>
-						Continue
+						{loading ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+								Please wait
+							</>
+						) : (
+							"Continue"
+						)}
 					</Button>
 				</form>
 			</Form>

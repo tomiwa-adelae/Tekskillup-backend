@@ -8,6 +8,7 @@ import asyncHandler from "../middleware/asyncHandler";
 import User from "../models/userModel";
 import generateToken from "../utils/generateToken";
 import Token from "../models/tokenModel";
+import cloudinary from "../middleware/cloudinaryMiddleware";
 
 const mailjet = Mailjet.apiConnect(
 	process.env.MAILJET_API_PUBLIC_KEY!,
@@ -119,18 +120,25 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/users/:id
 // @access  Private/Admin
 const getUserById = asyncHandler(async (req: Request, res: Response) => {
-	const user = await User.findById(req.params.id)
-		.sort({ createdAt: -1 })
-		.select("-password");
+	// const user = await User.findById(req.params.id)
+	// 	.sort({ createdAt: -1 })
+	// 	.select("-password");
 
+	// if (user) {
+	// 	res.status(200).json(user);
+	// } else {
+	// 	res.status(400);
+	// 	throw new Error("Internal server error!");
+	// }
+
+	// res.status(200).json(user);
+	const user = await User.findById(req.params.id).select("-password");
 	if (user) {
-		res.status(200).json(user);
+		res.json(user);
 	} else {
 		res.status(400);
 		throw new Error("Internal server error!");
 	}
-
-	res.status(200).json(user);
 });
 
 // @desc    Delete a user by admin
@@ -150,8 +158,6 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
 		res.status(404);
 		throw new Error("Internal server error!");
 	}
-
-	res.status(200).json(user);
 });
 
 // @desc    Update a user profile
@@ -184,8 +190,6 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 		res.status(404);
 		throw new Error("Internal server error!");
 	}
-
-	res.status(200).json(user);
 });
 
 // @desc    Update a user password
@@ -215,8 +219,6 @@ const updateUserPassword = asyncHandler(async (req: Request, res: Response) => {
 		res.status(404);
 		throw new Error("Internal server error!");
 	}
-
-	res.status(200).json(user);
 });
 
 // @desc    Logout user / clear cookie
@@ -370,6 +372,47 @@ const updatePassword = asyncHandler(async (req: Request, res: Response) => {
 	}
 });
 
+// @desc    Update a user image
+// @route   PUT /api/users/:id/image
+// @access  Private
+const uploadProfileImage = asyncHandler(async (req: Request, res: Response) => {
+	const { image } = req.body;
+	const user = await User.findById(req.user._id);
+
+	if (user) {
+		if (user.imageId) {
+			await cloudinary.uploader.destroy(user.imageId, {
+				invalidate: true,
+			});
+
+			const uploadResponse = await cloudinary.uploader.upload(image, {
+				upload_preset: "tekskillup",
+			});
+
+			user.image = uploadResponse.url;
+			user.imageId = uploadResponse.public_id;
+
+			const updatedUser = await user.save();
+
+			res.status(200).json(updatedUser);
+		} else {
+			const uploadResponse = await cloudinary.uploader.upload(image, {
+				upload_preset: "tekskillup",
+			});
+
+			user.image = uploadResponse.url;
+			user.imageId = uploadResponse.public_id;
+
+			const updatedUser = await user.save();
+
+			res.status(200).json(updatedUser);
+		}
+	} else {
+		res.status(400);
+		throw new Error("Internal server error!");
+	}
+});
+
 export {
 	registerUser,
 	loginUser,
@@ -382,4 +425,5 @@ export {
 	resetPassword,
 	verifyCode,
 	updatePassword,
+	uploadProfileImage,
 };

@@ -1,13 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Pencil, X } from "lucide-react";
+import { Loader2, Pencil, X } from "lucide-react";
 import React, { useState } from "react";
 
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 import {
 	Form,
@@ -18,13 +19,20 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import { setCredentials } from "@/app/slices/authSlice";
 
 const formSchema = z.object({
 	phoneNumber: z.string().min(2).max(50),
 });
 
-const PhoneNumberBox = () => {
-	const [phoneNumber, setPhoneNumber] = useState(false);
+const PhoneNumberBox = ({ phoneNumber }: { phoneNumber: string }) => {
+	const dispatch = useDispatch();
+	const { toast } = useToast();
+	const [editPhoneNumber, setEditPhoneNumber] = useState(false);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -34,11 +42,41 @@ const PhoneNumberBox = () => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-	}
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			setLoading(true);
+
+			const config = {
+				headers: {
+					"Content-type": "application/json",
+				},
+				withCredentials: true,
+			};
+
+			const res = await axios.put(
+				`${BASE_URL}${USERS_URL}/profile`,
+				values,
+				config
+			);
+			dispatch(setCredentials({ ...res.data }));
+			setLoading(false);
+			setEditPhoneNumber(!editPhoneNumber);
+			toast({
+				title: "Success!",
+				description:
+					"You have successfully updated your phone number😁",
+			});
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
@@ -47,19 +85,19 @@ const PhoneNumberBox = () => {
 				<Button
 					variant="ghost"
 					className="transition ease-in-out uppercase hover:bg-gradient-to-r from-green-100 via-gray-100 to-green-100"
-					onClick={() => setPhoneNumber(!phoneNumber)}
+					onClick={() => setEditPhoneNumber(!editPhoneNumber)}
 				>
-					{phoneNumber ? (
+					{editPhoneNumber ? (
 						<X className="w-4 h-4 mr-2" />
 					) : (
 						<Pencil className="w-4 h-4 mr-2" />
 					)}
 					<span className="text-xs font-semibold">
-						{phoneNumber ? "Cancel" : "Edit"}
+						{editPhoneNumber ? "Cancel" : "Edit"}
 					</span>
 				</Button>
 			</div>
-			{phoneNumber ? (
+			{editPhoneNumber ? (
 				<div>
 					<Form {...form}>
 						<form
@@ -73,12 +111,13 @@ const PhoneNumberBox = () => {
 									<FormItem>
 										<FormControl>
 											<Input
-												placeholder="e.g 08012345678"
+												placeholder="e.g Doe"
 												{...field}
 											/>
 										</FormControl>
 										<FormDescription className="text-xs md:text-sm">
-											This is your phone number.
+											This is your public display phone
+											number.
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -87,15 +126,23 @@ const PhoneNumberBox = () => {
 							<Button
 								className="bg-green-400 uppercase"
 								type="submit"
+								disabled={loading}
 							>
-								Save
+								{loading ? (
+									<>
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+										Please wait
+									</>
+								) : (
+									"Save"
+								)}
 							</Button>
 						</form>
 					</Form>
 				</div>
 			) : (
 				<div>
-					<p className="text-sm">08012345678</p>
+					<p className="text-sm">{phoneNumber}</p>
 				</div>
 			)}
 		</div>

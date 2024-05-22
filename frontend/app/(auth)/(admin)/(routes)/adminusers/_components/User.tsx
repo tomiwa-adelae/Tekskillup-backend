@@ -45,10 +45,14 @@ const User = ({
 					className="transition ease-in-out uppercase bg-green-400 hover:bg-green-500 w-full"
 					asChild
 				>
-					<Link href="/send-email">
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						href={`mailto:${email}`}
+					>
 						<Mail className="mr-2 h-4 w-4" />
 						Email
-					</Link>
+					</a>
 				</Button>
 				<Button
 					className="transition ease-in-out uppercase outline outline-green-100 bg-transparent text-green-400 hover:bg-green-100 w-full"

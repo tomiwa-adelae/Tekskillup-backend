@@ -12,6 +12,7 @@ import {
 	resetPassword,
 	verifyCode,
 	updatePassword,
+	uploadProfileImage,
 } from "../controllers/userController";
 import { admin, protect } from "../middleware/authMiddleware";
 import {
@@ -47,5 +48,7 @@ router.route("/verify-code").post(validate(verifyCodeValidator), verifyCode);
 router
 	.route("/update-password/:id/:code")
 	.post(validate(updateNewPasswordValidator), updatePassword);
+
+router.route("/image").put(protect, uploadProfileImage);
 
 export default router;

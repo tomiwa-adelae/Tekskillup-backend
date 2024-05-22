@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Pencil, X } from "lucide-react";
+import { Loader2, Pencil, X } from "lucide-react";
 import React, { useState } from "react";
 
 import { z } from "zod";
@@ -17,16 +17,23 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Editor } from "@/components/Editor";
+import { setCredentials } from "@/app/slices/authSlice";
+import { useToast } from "@/components/ui/use-toast";
+import { useDispatch } from "react-redux";
+import { BASE_URL, USERS_URL } from "@/app/slices/constants";
+import axios from "axios";
+import { Preview } from "@/components/Preview";
 
 const formSchema = z.object({
-	bio: z.string().min(2).max(50),
+	bio: z.string().min(2).max(1000),
 });
 
-const BioBox = () => {
+const BioBox = ({ bio }: { bio: string }) => {
+	const dispatch = useDispatch();
+	const { toast } = useToast();
 	const [editBio, setEditBio] = useState(false);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -36,11 +43,40 @@ const BioBox = () => {
 	});
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-	}
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			setLoading(true);
+
+			const config = {
+				headers: {
+					"Content-type": "application/json",
+				},
+				withCredentials: true,
+			};
+
+			const res = await axios.put(
+				`${BASE_URL}${USERS_URL}/profile`,
+				values,
+				config
+			);
+			dispatch(setCredentials({ ...res.data }));
+			setLoading(false);
+			setEditBio(!editBio);
+			toast({
+				title: "Success!",
+				description: "You have successfully updated your bio😁",
+			});
+		} catch (error: any) {
+			setLoading(false);
+			toast({
+				variant: "destructive",
+				title: "Uh oh! Something went wrong.",
+				description: error.response.data.message,
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
@@ -86,15 +122,27 @@ const BioBox = () => {
 							<Button
 								className="bg-green-400 uppercase"
 								type="submit"
+								disabled={loading}
 							>
-								Save
+								{loading ? (
+									<>
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />{" "}
+										Please wait
+									</>
+								) : (
+									"Save"
+								)}
 							</Button>
 						</form>
 					</Form>
 				</div>
 			) : (
 				<div>
-					<p className="text-sm italic font-light">No bio</p>
+					{bio ? (
+						<Preview value={bio} />
+					) : (
+						<p className="text-sm italic font-light">No bio</p>
+					)}
 				</div>
 			)}
 		</div>

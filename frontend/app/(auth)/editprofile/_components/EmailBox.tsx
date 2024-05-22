@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import React from "react";
 
-const EmailBox = () => {
+const EmailBox = ({ email }: { email: string }) => {
 	return (
 		<div className="bg-gray-100 p-4 md:p-8 rounded-lg">
 			<div className="flex items-center justify-between gap-4 mb-3">
@@ -12,7 +12,7 @@ const EmailBox = () => {
 					<span className="text-xs font-semibold">Edit</span>
 				</Button>
 			</div>
-			<p className="text-sm">johndoe@gmail.com</p>
+			<p className="text-sm">{email}</p>
 		</div>
 	);
 };

@@ -4,7 +4,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export function NoCoursesAlert() {
+export function NoCoursesAlert({
+	firstName,
+	email,
+}: {
+	firstName: string;
+	email: string;
+}) {
 	return (
 		<Alert variant="info" className="my-6">
 			<TriangleAlert className="h-4 w-4" />
@@ -12,10 +18,10 @@ export function NoCoursesAlert() {
 				No registered courses
 			</AlertTitle>
 			<AlertDescription>
-				You have nothing here because you haven&apos;t registered for
-				any course.{" "}
-				<Link className="underline text-black" href="/our-courses">
-					Start your tech journey today
+				{firstName} have nothing here because they haven&apos;t
+				registered for any course.{" "}
+				<Link href={`mailto:${email}`} className="underline text-black">
+					Reach out to {firstName} via an email
 				</Link>
 			</AlertDescription>
 		</Alert>

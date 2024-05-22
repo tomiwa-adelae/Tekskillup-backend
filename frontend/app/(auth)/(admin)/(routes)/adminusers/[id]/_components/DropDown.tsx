@@ -1,20 +1,18 @@
 import React from "react";
 
-import { Mail, Trash2 } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 import { DeleteUserAlertDialog } from "./DeleteUserAlertModal";
 
-const DropDown = ({ id }: { id: string }) => {
+const DropDown = ({ id, email }: { id: string; email: string }) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -28,14 +26,20 @@ const DropDown = ({ id }: { id: string }) => {
 			<DropdownMenuContent className="w-56">
 				<DropdownMenuLabel>Account actions</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-					<Mail className="mr-2 h-4 w-4" />
-					<span>Email user</span>
-				</DropdownMenuItem>
+				<div className="">
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						href={`mailto:${email}`}
+						className="flex items-center justify-start cursor-pointer py-3 px-2 hover:bg-slate-100 transition ease-in-out"
+					>
+						<Mail className="mr-2 h-4 w-4" />
+						<span>Email user</span>
+					</a>
+				</div>
 				<DropdownMenuSeparator />
-				{/* <DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100"> */}
+
 				<DeleteUserAlertDialog id={id} />
-				{/* </DropdownMenuItem> */}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
