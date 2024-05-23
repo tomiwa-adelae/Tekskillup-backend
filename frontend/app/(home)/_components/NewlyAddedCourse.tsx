@@ -4,10 +4,6 @@ import { Button } from "@/components/ui/button";
 import { CalendarClock, Hourglass } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
-import { useToast } from "@/components/ui/use-toast";
 import { FaNairaSign } from "react-icons/fa6";
 import { Separator } from "@/components/ui/separator";
 
@@ -26,33 +22,7 @@ interface CourseProps {
 	weekdayStartDate: string;
 }
 
-const NewlyAddedCourse = () => {
-	const { toast } = useToast();
-
-	const [loading, setLoading] = useState<boolean>(false);
-	const [course, setCourse] = useState<CourseProps>();
-
-	useEffect(() => {
-		const fetchPublishedCourses = async () => {
-			try {
-				setLoading(true);
-				const res = await axios(`${BASE_URL}${COURSES_URL}/published`);
-				setLoading(false);
-				setCourse(res.data[0]);
-			} catch (error: any) {
-				setLoading(false);
-				toast({
-					variant: "destructive",
-					title: "Uh oh! Something went wrong.",
-					description: error.response.data.message,
-				});
-			}
-		};
-		fetchPublishedCourses();
-	}, [toast]);
-
-	if (!course || loading) return <p>loading</p>;
-
+const NewlyAddedCourse = ({ course }: { course: CourseProps }) => {
 	return (
 		<div className="bg-white mb-16">
 			<div className="container flex flex-col lg:flex-row-reverse gap-8">

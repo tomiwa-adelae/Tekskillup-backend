@@ -1,14 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
 
 import CoursesCarousel from "./CoursesCarousel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
-import axios from "axios";
-import { useToast } from "@/components/ui/use-toast";
-import { StepLoader } from "@/components/StepLoader";
-interface Courses {
+
+interface CoursesProps {
 	_id: string;
 	user: string;
 	title: string;
@@ -23,35 +19,7 @@ interface Courses {
 	weekdayStartDate: string;
 }
 
-type CoursesProps = Courses[];
-
-const OurOffers = () => {
-	const { toast } = useToast();
-
-	const [loading, setLoading] = useState<boolean>(false);
-	const [courses, setCourses] = useState<CoursesProps>([]);
-
-	useEffect(() => {
-		const fetchPublishedCourses = async () => {
-			try {
-				setLoading(true);
-				const res = await axios(`${BASE_URL}${COURSES_URL}/published`);
-				setLoading(false);
-				setCourses(res.data);
-			} catch (error: any) {
-				setLoading(false);
-				toast({
-					variant: "destructive",
-					title: "Uh oh! Something went wrong.",
-					description: error.response.data.message,
-				});
-			}
-		};
-		fetchPublishedCourses();
-	}, [toast]);
-
-	if (!courses || loading) return <StepLoader />;
-
+const OurOffers = ({ courses }: { courses: CoursesProps[] }) => {
 	return (
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
 			<div className="container ">
