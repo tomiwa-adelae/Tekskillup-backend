@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import React from "react";
 
@@ -38,7 +39,7 @@ const WhyTekskillup = () => {
 				<h3 className="text-green-400 my-5 text-2xl lg:text-3xl">
 					We are customer centric
 				</h3>
-				<p className="text-xs lg:text-sm mb-8 lg:w-5/6 mx-auto">
+				<p className="text-xs md:text-sm mb-8 lg:w-5/6 mx-auto">
 					Lorem, ipsum dolor sit amet consectetur adipisicing elit.
 					Aperiam minima eligendi consectetur libero molestias
 					corporis explicabo magni adipisci placeat at.
@@ -54,16 +55,16 @@ const WhyTekskillup = () => {
 							},
 							index: number
 						) => (
-							<div
+							<Card
 								key={index}
-								className="flex flex-col items-center justify-center bg-gray-100 py-8 px-4 rounded-md"
+								className="flex flex-col items-center justify-center py-8 px-6 rounded-xl"
 							>
 								<Image
 									src={why.img}
 									alt={why.title}
 									height={1000}
 									width={1000}
-									className="w-24 lg:w-36"
+									className="w-24 md:w-32"
 								/>
 								<div>
 									<h4 className="text-green-400 mt-3 text-lg font-medium">
@@ -73,7 +74,7 @@ const WhyTekskillup = () => {
 										{why.details}
 									</p>
 								</div>
-							</div>
+							</Card>
 						)
 					)}
 				</div>

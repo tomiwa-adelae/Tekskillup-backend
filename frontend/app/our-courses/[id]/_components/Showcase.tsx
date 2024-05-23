@@ -76,7 +76,7 @@ const Showcase = ({
 		>
 			<div className="container flex flex-col lg:flex-row gap-4 lg:gap-8 items-start justify-between">
 				<div className="flex-1 w-full text-white mt-10">
-					<h1 className="text-3xl text-center lg:text-6xl lg:text-left lg:leading-tight">
+					<h1 className="text-3xl text-center md:text-4xl lg:text-5xl lg:text-left lg:leading-tight">
 						{title}
 					</h1>
 					<p className="text-xs md:text-sm text-center lg:text-left mt-4 mb-6 text-slate-200">
@@ -90,11 +90,11 @@ const Showcase = ({
 					)}
 				>
 					{userInfo ? (
-						<div className="bg-green-400 shadow-lg rounded-2xl py-12 px-8 text-white text-center">
-							<h1 className="text-lg md:text-xl mb-6">
+						<div className="bg-green-400 shadow-lg rounded-xl py-10 px-8 text-white text-center">
+							<h3 className="text-base md:text-xl mb-6">
 								You are already logged in so click the button to
 								apply now
-							</h1>
+							</h3>
 							<Button
 								onClick={handleRegisterCourse}
 								className="bg-green-200 w-full font-semibold uppercase"

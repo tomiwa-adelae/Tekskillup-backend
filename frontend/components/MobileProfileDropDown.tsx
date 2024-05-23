@@ -89,13 +89,13 @@ export function MobileProfileDropDown({
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<div className="absolute bottom-0 left-0 w-full">
-					<div className="border-t-2 border-gray-100 flex items-center justify-start gap-4 hover:bg-slate-100 transition ease-in-out cursor-pointer px-4 py-3">
+					<div className="border-t-2 border-gray-100 flex items-center justify-start gap-4 hover:bg-gray-100 transition-all cursor-pointer px-4 py-3">
 						<Image
 							src={image}
 							alt={firstName}
 							height={1000}
 							width={1000}
-							className="w-12 h-12 transition ease-in-out border-0 rounded-full cursor-pointer hover:border border-1 border-green-100 object-cover"
+							className="w-12 h-12 transition-all border-0 rounded-full cursor-pointer hover:border border-1 border-green-100 object-cover"
 						/>
 						<h3 className="text-base md:text-lg font-semibold text-green-400">
 							{firstName} {lastName}
@@ -108,7 +108,7 @@ export function MobileProfileDropDown({
 				<DropdownMenuSeparator />
 				<SheetTrigger asChild>
 					<Link href="/profile">
-						<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+						<DropdownMenuItem className="transition-all cursor-pointer py-4 hover:bg-gray-100">
 							<User className="mr-2 h-4 w-4" />
 							<span>My Profile</span>
 						</DropdownMenuItem>
@@ -117,7 +117,7 @@ export function MobileProfileDropDown({
 				<DropdownMenuSeparator />
 				<SheetTrigger asChild>
 					<Link href="/editprofile">
-						<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+						<DropdownMenuItem className="transition-all cursor-pointer py-4 hover:bg-gray-100">
 							<Pencil className="mr-2 h-4 w-4" />
 							<span>Edit Profile</span>
 						</DropdownMenuItem>
@@ -126,7 +126,7 @@ export function MobileProfileDropDown({
 				<DropdownMenuSeparator />
 				<SheetTrigger asChild>
 					<Link href="/changepassword">
-						<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+						<DropdownMenuItem className="transition-all cursor-pointer py-4 hover:bg-gray-100">
 							<LockKeyhole className="mr-2 h-4 w-4" />
 							<span>Change password</span>
 						</DropdownMenuItem>
@@ -136,7 +136,7 @@ export function MobileProfileDropDown({
 				{isAdmin && (
 					<SheetTrigger asChild>
 						<Link href="/admindashboard">
-							<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+							<DropdownMenuItem className="transition-all cursor-pointer py-4 hover:bg-gray-100">
 								<LayoutDashboard className="mr-2 h-4 w-4" />
 								<span>Admin dashboard</span>
 							</DropdownMenuItem>
@@ -147,7 +147,7 @@ export function MobileProfileDropDown({
 				<SheetTrigger asChild>
 					<DropdownMenuItem
 						onClick={handleLogout}
-						className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100"
+						className="transition-all cursor-pointer py-4 hover:bg-gray-100"
 					>
 						<LogOut className="mr-2 h-4 w-4" />
 						<span>Log out</span>

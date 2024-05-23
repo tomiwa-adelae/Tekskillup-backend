@@ -80,7 +80,7 @@ const Footer = () => {
 						height={1000}
 						className="w-32"
 					/>
-					<p className="text-xs text-gray-200">
+					<p className="text-xs text-gray-200 font-light">
 						&copy; 2024 Tekskillup. All Rights Reserved.
 					</p>
 				</div>

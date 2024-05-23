@@ -11,7 +11,7 @@ const Lessons = ({ lessons }: any) => {
 	return (
 		<div className="bg-white py-16">
 			<div className="container">
-				<h3 className="text-green-400 text-center my-5 text-2xl lg:text-3xl">
+				<h3 className="text-green-400 text-center mb-5 text-2xl lg:text-3xl">
 					What you will learn
 				</h3>
 				<div className="flex flex-col-reverse gap-4 items-center lg:flex-row lg:justify-between mt-10">
@@ -19,9 +19,9 @@ const Lessons = ({ lessons }: any) => {
 						{lessons.map((lesson: LessonProps) => (
 							<h5
 								key={lesson._id}
-								className="text-sm md:text-base"
+								className="text-xs md:text-sm"
 							>
-								<CircleCheckBig className="text-green-400 inline mr-2" />
+								<CircleCheckBig className="text-green-400 inline mr-2 w-4 h-4" />
 								{lesson.content}
 							</h5>
 						))}

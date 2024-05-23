@@ -88,10 +88,10 @@ export function ProfileDropDown({
 					alt={firstName}
 					height={1000}
 					width={1000}
-					className="w-10 h-10 transition ease-in-out border-0 rounded-full cursor-pointer hover:border border-1 border-green-100 object-cover"
+					className="w-10 h-10 transition ease-in-out border-0 rounded-full cursor-pointer object-cover"
 				/>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-56">
+			<DropdownMenuContent className="w-72">
 				<DropdownMenuLabel>My Account</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<Link href="/profile">

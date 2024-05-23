@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import MobileSideBar from "./MobileSideBar";
 import { useSelector } from "react-redux";
 import { ProfileDropDown } from "./ProfileDropDown";
-import { SheetClose } from "./ui/sheet";
 
 interface UserInfoProps {
 	firstName: string;
@@ -27,7 +26,7 @@ const Header = () => {
 	}, [userInfo]);
 
 	return (
-		<header className="bg-green-400 h-24 flex items-center border-b border-green-200 shadow-md justify-center">
+		<header className="bg-green-400 h-24 flex items-center justify-center">
 			<div className="container flex items-center justify-between">
 				<Link href="/">
 					<Image
@@ -38,27 +37,27 @@ const Header = () => {
 						className="w-36"
 					/>
 				</Link>
-				<nav className="hidden lg:flex items-center justify-center gap-6 font-semibold uppercase text-xs text-white">
+				<nav className="hidden lg:flex items-center justify-center gap-8 font-semibold uppercase text-xs text-gray-100">
 					<Link
-						className="transition ease-in-out hover:text-gray-100"
+						className="transition ease-in-out hover:text-white"
 						href="/about"
 					>
 						About us
 					</Link>
 					<Link
-						className="transition ease-in-out hover:text-gray-100"
+						className="transition ease-in-out hover:text-white"
 						href="/our-courses"
 					>
 						Our courses
 					</Link>
 					<Link
-						className="transition ease-in-out hover:text-gray-100"
+						className="transition ease-in-out hover:text-white"
 						href="/faqs"
 					>
 						FAQs
 					</Link>
 					<Link
-						className="transition ease-in-out hover:text-gray-100"
+						className="transition ease-in-out hover:text-white"
 						href="/contact"
 					>
 						Contact us

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { Card } from "./ui/card";
 
 const NeedHelp = ({
 	helpTitle,
@@ -16,14 +17,12 @@ const NeedHelp = ({
 	return (
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
 			<div className="container">
-				<div
-					className="bg-green-400 bg-no-repeat bg-right bg-auto py-4 md:py-8 px-4 md:px-8 lg:px-12 rounded-xl bg-scroll"
+				<Card
+					className="bg-green-400 text-white bg-no-repeat bg-right bg-auto py-4 md:py-8 px-4 md:px-8 lg:px-12 rounded-xl bg-scroll"
 					style={{ backgroundImage: `url(/phone-icon.png)` }}
 				>
-					<h3 className="text-white my-5 text-xl md:text-2xl lg:text-3xl">
-						{helpTitle}
-					</h3>
-					<p className="text-sm text-gray-100 lg:w-8/12 mb-8">
+					<h3 className="mb-5 text-xl lg:text-3xl">{helpTitle}</h3>
+					<p className="text-xs lg:text-sm text-gray-100 lg:w-8/12 mb-8">
 						{helpDescription}
 					</p>
 					<Button
@@ -32,7 +31,7 @@ const NeedHelp = ({
 					>
 						<Link href={helpButtonLink}>{helpButtonName}</Link>
 					</Button>
-				</div>
+				</Card>
 			</div>
 		</div>
 	);

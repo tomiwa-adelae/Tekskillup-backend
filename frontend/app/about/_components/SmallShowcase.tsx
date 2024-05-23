@@ -3,8 +3,8 @@ import React from "react";
 
 const SmallShowcase = () => {
 	return (
-		<div className="mt-8 hidden md:flex flex-cols items-center gap-4 lg:gap-8 justify-between lg:flex-row">
-			<div className="flex-1">
+		<div className="mt-8 hidden md:flex items-center gap-4 justify-between">
+			<div>
 				<Image
 					src={"/test-image.jpg"}
 					alt={"Test"}
@@ -13,7 +13,7 @@ const SmallShowcase = () => {
 					className="aspect-video rounded-xl"
 				/>
 			</div>
-			<div className="flex-1">
+			<div>
 				<Image
 					src={"/test-image.jpg"}
 					alt={"Test"}
@@ -22,7 +22,7 @@ const SmallShowcase = () => {
 					className="aspect-video rounded-xl"
 				/>
 			</div>
-			<div className="flex-1">
+			<div>
 				<Image
 					src={"/test-image.jpg"}
 					alt={"Test"}

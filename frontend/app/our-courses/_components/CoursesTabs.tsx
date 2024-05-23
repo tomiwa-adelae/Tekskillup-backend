@@ -59,8 +59,6 @@ export function CoursesTabs() {
 
 	if (!courses || loading) return <StepLoader />;
 
-	console.log(courses);
-
 	return (
 		<Tabs defaultValue={courses[0]?.title} className="w-full">
 			<TabsList className="flex items-center justify-start">
@@ -84,23 +82,23 @@ export function CoursesTabs() {
 								/>
 							</div>
 							<div className="flex-1">
-								<h3 className="text-3xl md:text-4xl font-normal">
+								<h3 className="text-2xl md:text-3xl">
 									{course.title}
 								</h3>
-								<p className="text-xs font-normal md:text-sm mt-4">
+								<p className="text-xs md:text-sm mt-2 md:mt-4">
 									{course.description}
 								</p>
 							</div>
 						</div>
 						<Separator className="my-8 bg-green-400" />
-						<div className="flex flex-col lg:flex-row items-start justify-start lg:justify-between font-normal">
+						<div className="flex flex-col lg:flex-row items-start justify-start lg:justify-between">
 							<div>
 								<h6 className="font-semibold text-xs md:text-sm uppercase mb-4">
 									Online
 								</h6>
 								<div className="space-y-2 md:space-y-4">
 									<h5 className="text-sm md:text-base">
-										<FaNairaSign className="inline text-green-400 mr-2" />{" "}
+										<FaNairaSign className="inline text-green-400 mr-2 w-4 h-4" />{" "}
 										Price: #{course.onlinePrice}
 									</h5>
 								</div>
@@ -112,14 +110,14 @@ export function CoursesTabs() {
 								</h6>
 								<div className="space-y-2 md:space-y-4">
 									<h5 className="text-sm md:text-base">
-										<CalendarClock className="inline text-green-400 mr-2" />{" "}
+										<CalendarClock className="inline text-green-400 mr-2 w-5 h-5" />{" "}
 										Start date:
 										<Moment format="DD-MMM-YYYY">
 											{course.weekdayStartDate}
 										</Moment>
 									</h5>
 									<h5 className="text-sm md:text-base">
-										<FaNairaSign className="inline text-green-400 mr-2" />{" "}
+										<FaNairaSign className="inline text-green-400 mr-2 w-4 h-4" />{" "}
 										Price: #{course.weekdayPrice}
 									</h5>
 								</div>
@@ -131,22 +129,22 @@ export function CoursesTabs() {
 								</h6>
 								<div className="space-y-2 md:space-y-4">
 									<h5 className="text-sm md:text-base">
-										<CalendarClock className="inline text-green-400 mr-2" />{" "}
+										<CalendarClock className="inline text-green-400 mr-2 w-5 h-5" />{" "}
 										Start date:{" "}
 										<Moment format="DD-MMM-YYYY">
 											{course.weekendStartDate}
 										</Moment>
 									</h5>
 									<h5 className="text-sm md:text-base">
-										<FaNairaSign className="inline text-green-400 mr-2" />{" "}
+										<FaNairaSign className="inline text-green-400 mr-2 w-4 h-4" />{" "}
 										Price: #{course.weekendPrice}
 									</h5>
 								</div>
 							</div>
 						</div>
-						<div className="flex items-center justify-end mt-6">
+						<div className="flex items-center justify-end mt-8">
 							<Button
-								className="bg-green-400 font-semibold py-8 px-8  hover:bg-inherit uppercase"
+								className="bg-green-400 font-semibold py-8 px-8  hover:bg-inherit uppercase w-full md:w-auto"
 								asChild
 							>
 								<Link href={`/our-courses/${course._id}`}>

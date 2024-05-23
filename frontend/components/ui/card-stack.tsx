@@ -45,7 +45,7 @@ export const CardStack = ({
 				return (
 					<motion.div
 						key={card.id}
-						className="absolute dark:bg-black bg-white h-96 w-full md:h-[30rem] md:w-full lg:h-5/6 lg:w-5/6 rounded-3xl p-4 shadow-xl border border-neutral-200 dark:border-white/[0.1]  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between overflow-hidden"
+						className="absolute dark:bg-black bg-white h-96 w-full md:h-[30rem] md:w-full lg:h-5/6 lg:w-5/6 rounded-xl shadow-xl border border-neutral-200 dark:border-white/[0.1]  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col justify-between overflow-hidden"
 						style={{
 							transformOrigin: "top center",
 						}}
@@ -58,8 +58,9 @@ export const CardStack = ({
 						<Image
 							src={card.image}
 							alt={card.name}
-							className="object-cover"
-							fill
+							className="object-cover aspect-square"
+							height={1000}
+							width={1000}
 						/>
 					</motion.div>
 				);

@@ -12,18 +12,18 @@ const StartToday = () => {
 					alt="Speakers"
 					width={1000}
 					height={1000}
-					className="aspect-video rounded-2xl object-cover"
+					className="aspect-video rounded-xl object-cover"
 				/>
 			</div>
 			<div className="flex-1">
 				<h5 className="uppercase text-xs lg:text-sm">
 					Start your course today
 				</h5>
-				<h3 className="text-green-400 my-5 text-2xl lg:text-3xl">
+				<h3 className="text-green-400 my-5 text-2xl md:text-3xl">
 					Acquire a Tech skill to transcend your current earning
 					status
 				</h3>
-				<p className="text-xs lg:text-sm">
+				<p className="text-xs md:text-sm">
 					Lorem ipsum dolor sit amet consectetur adipisicing elit.
 					Quaerat, deserunt molestiae amet incidunt dolorem fuga eum
 					obcaecati eaque neque. Doloremque quia earum odit excepturi

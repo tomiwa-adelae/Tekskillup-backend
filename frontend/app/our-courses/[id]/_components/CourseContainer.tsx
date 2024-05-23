@@ -11,6 +11,7 @@ import WhereGraduatesWorks from "@/components/WhereGraduatesWorks";
 import { StudentTestimonials } from "@/components/StudentTestimonials";
 import NeedHelp from "@/components/NeedHelp";
 import { useToast } from "@/components/ui/use-toast";
+import { StepLoader } from "@/components/StepLoader";
 
 interface CourseProps {
 	_id: string;
@@ -52,7 +53,7 @@ const CourseContainer = ({ id }: { id: string }) => {
 		fetchPublishedCourses();
 	}, [toast, id]);
 
-	if (!course || loading) return <p>loading</p>;
+	if (!course || loading) return <StepLoader />;
 
 	return (
 		<div>

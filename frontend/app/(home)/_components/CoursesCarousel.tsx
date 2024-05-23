@@ -48,14 +48,16 @@ const CoursesCarousel = ({ courses }: { courses: CoursesProps[] }) => {
 						className="md:basis-1/2 lg:basis-1/3"
 					>
 						<div className="flex flex-col items-center justify-center py-8 px-4 rounded-md gap-6">
-							<Image
-								src={course.image}
-								alt={course.title}
-								height={1000}
-								width={1000}
-								className="aspect-video object-cover rounded-lg"
-							/>
-							<div className="space-y-4">
+							<div className="flex-1">
+								<Image
+									src={course.image}
+									alt={course.title}
+									height={1000}
+									width={1000}
+									className="aspect-video rounded-2xl object-cover"
+								/>
+							</div>
+							<div className="space-y-4 flex-1">
 								<h4 className="text-green-400 text-lg font-medium md:text-2xl">
 									{course.title}
 								</h4>

@@ -50,9 +50,9 @@ export function StudentTestimonials() {
 			<ContainerScroll
 				titleComponent={
 					<>
-						<h1 className="text-2xl text-green-400 lg:text-4xl dark:text-white">
+						<h3 className="text-2xl md:text-3xl text-green-400 lg:text-4xl dark:text-white">
 							What our graduates are saying
-						</h1>
+						</h3>
 					</>
 				}
 			>
@@ -77,7 +77,7 @@ export function StudentTestimonials() {
 								index: number
 							) => (
 								<CarouselItem key={index}>
-									<div className="flex flex-col items-center justify-center gap-6">
+									<div className="flex flex-col items-center justify-center gap-8">
 										<p className="text-center text-sm flex-1">
 											{testimony.testimony}
 										</p>
@@ -87,12 +87,12 @@ export function StudentTestimonials() {
 												alt="Test"
 												height={1000}
 												width={1000}
-												className="w-36 h-36 border-2 border-green-100 rounded-full"
+												className="w-28 h-28 md:w-32 md:h-32 rounded-full"
 											/>
-											<h4 className="text-green-100 text-2xl my-2">
+											<h4 className="text-green-100 text-xl md:text-2xl my-4">
 												{testimony.name}
 											</h4>
-											<p className="text-xs">
+											<p className="text-xs md:text-sm">
 												{testimony.portfolio}
 											</p>
 										</div>
