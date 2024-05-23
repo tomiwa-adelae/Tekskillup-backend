@@ -6,6 +6,7 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import SearchBox from "./SearchBox";
+import { StepLoader } from "@/components/StepLoader";
 
 interface Courses {
 	_id: string;
@@ -17,7 +18,7 @@ interface Courses {
 	image: string;
 	onlinePrice: number;
 	weekendPrice: number;
-	weekdaysPrice: number;
+	weekdayPrice: number;
 }
 
 type CoursesProps = Courses[];
@@ -46,7 +47,6 @@ const Courses = () => {
 					title: "Uh oh! Something went wrong.",
 					description: error.response.data.message,
 				});
-				// router.push("/login");
 			} finally {
 				setLoading(false);
 			}
@@ -54,7 +54,7 @@ const Courses = () => {
 		fetchAllCourses();
 	}, [router, toast]);
 
-	if (loading) return <p>Loading</p>;
+	if (loading) return <StepLoader />;
 
 	return (
 		<>
@@ -71,7 +71,7 @@ const Courses = () => {
 						image={course.image}
 						onlinePrice={course.onlinePrice}
 						weekendPrice={course.weekendPrice}
-						weekdaysPrice={course.weekdaysPrice}
+						weekdayPrice={course.weekdayPrice}
 						isPublished={course.isPublished}
 					/>
 				))}

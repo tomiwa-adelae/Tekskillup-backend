@@ -1,17 +1,14 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import CoursesCarousel from "./CoursesCarousel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 import axios from "axios";
-
-async function fetchPublishedCourses() {
-	const res = await axios(`${BASE_URL}${COURSES_URL}/published`);
-	return await res.data;
-}
-
-interface PublishedCoursesProps {
+import { useToast } from "@/components/ui/use-toast";
+import { StepLoader } from "@/components/StepLoader";
+interface Courses {
 	_id: string;
 	user: string;
 	title: string;
@@ -19,12 +16,41 @@ interface PublishedCoursesProps {
 	lessons: {}[];
 	description: string;
 	image: string;
+	onlinePrice: number;
+	weekendPrice: number;
+	weekdayPrice: number;
+	weekendStartDate: string;
+	weekdayStartDate: string;
 }
-[];
 
-const OurOffers = async () => {
-	const publishedCourses: PublishedCoursesProps[] =
-		await fetchPublishedCourses();
+type CoursesProps = Courses[];
+
+const OurOffers = () => {
+	const { toast } = useToast();
+
+	const [loading, setLoading] = useState<boolean>(false);
+	const [courses, setCourses] = useState<CoursesProps>([]);
+
+	useEffect(() => {
+		const fetchPublishedCourses = async () => {
+			try {
+				setLoading(true);
+				const res = await axios(`${BASE_URL}${COURSES_URL}/published`);
+				setLoading(false);
+				setCourses(res.data);
+			} catch (error: any) {
+				setLoading(false);
+				toast({
+					variant: "destructive",
+					title: "Uh oh! Something went wrong.",
+					description: error.response.data.message,
+				});
+			}
+		};
+		fetchPublishedCourses();
+	}, [toast]);
+
+	if (!courses || loading) return <StepLoader />;
 
 	return (
 		<div className="bg-gradient-to-r from-green-100 via-gray-100 to-green-100 py-16">
@@ -42,7 +68,7 @@ const OurOffers = async () => {
 						molestias corporis explicabo magni adipisci placeat at.
 					</p>
 
-					<CoursesCarousel courses={publishedCourses} />
+					<CoursesCarousel courses={courses} />
 					<Button
 						className="bg-green-400 font-semibold px-12 py-8 mt-8 uppercase shadow"
 						asChild

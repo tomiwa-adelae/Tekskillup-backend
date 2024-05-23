@@ -4,6 +4,7 @@ import { Tabs } from "@/components/ui/tabs";
 import axios from "axios";
 import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 import { useToast } from "@/components/ui/use-toast";
+import { StepLoader } from "@/components/StepLoader";
 
 interface Courses {
 	_id: string;
@@ -47,7 +48,7 @@ export function CoursesTabs() {
 		fetchPublishedCourses();
 	}, [toast]);
 
-	if (!courses || loading) return <p>loading</p>;
+	if (!courses || loading) return <StepLoader />;
 
 	return (
 		<div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative b flex flex-col max-w-5xl mx-auto w-full  items-start justify-start">

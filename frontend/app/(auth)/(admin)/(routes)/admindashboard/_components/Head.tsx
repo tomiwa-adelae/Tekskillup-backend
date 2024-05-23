@@ -27,7 +27,7 @@ const Head = () => {
 		setUser(userInfo);
 	}, [userInfo]);
 
-	if (!user) return <p>Loading...</p>;
+	if (!user) return;
 
 	return (
 		<div>

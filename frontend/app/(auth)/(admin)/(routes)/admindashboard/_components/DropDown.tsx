@@ -17,7 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { BASE_URL, USERS_URL } from "@/app/slices/constants";
-import { logout } from "@/app/slices/authSlice";
+import { logout, setCredentials } from "@/app/slices/authSlice";
 
 const DropDown = () => {
 	const router = useRouter();
@@ -25,9 +25,20 @@ const DropDown = () => {
 	const dispatch = useDispatch();
 	const handleLogout = async () => {
 		try {
-			await axios.post(`${BASE_URL}${USERS_URL}/logout`);
+			await axios.post(`${BASE_URL}${USERS_URL}/logout`, {
+				withCredentials: true,
+			});
 			dispatch(logout({ message: "logout" }));
+			dispatch(setCredentials(null));
+			toast({
+				title: "Successful",
+				description: "You have successfully logged out",
+			});
+
 			router.push("/login");
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
 		} catch (error: any) {
 			toast({
 				variant: "destructive",

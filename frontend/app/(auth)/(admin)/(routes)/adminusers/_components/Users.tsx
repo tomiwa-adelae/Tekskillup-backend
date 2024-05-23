@@ -7,6 +7,7 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import SearchBox from "./SearchBox";
+import { StepLoader } from "@/components/StepLoader";
 
 interface Users {
 	firstName: string;
@@ -50,7 +51,7 @@ const Users = () => {
 		fetchAllUsers();
 	}, [router, toast]);
 
-	if (loading || !users) return <p>Loading ...</p>;
+	if (loading || !users) return <StepLoader />;
 
 	return (
 		<>

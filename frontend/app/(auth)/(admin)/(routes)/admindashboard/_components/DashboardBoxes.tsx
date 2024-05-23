@@ -5,13 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { BASE_URL, COURSES_URL, USERS_URL } from "@/app/slices/constants";
+import {
+	BASE_URL,
+	COURSES_URL,
+	REGISTERED_COURSES_URL,
+	USERS_URL,
+} from "@/app/slices/constants";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import UserAnalyticsCharts from "./UserAnalyticsCharts";
-import RegisteredCoursesAnalyticsCharts from "./RegisteredCoursesAnalyticsCharts";
 import { Card } from "@/components/ui/card";
+import RegisteredCoursesAnalyticsCharts from "./RegisteredCoursesAnalyticsCharts";
+import { StepLoader } from "@/components/StepLoader";
 
 interface Courses {
 	_id: string;
@@ -40,8 +46,13 @@ const DashboardBoxes = () => {
 
 	const [courses, setCourses] = useState<CoursesProps>([]);
 	const [users, setUsers] = useState<UsersProps>([]);
+	const [registeredCourses, setRegisteredCourses] = useState<any>([]);
 	const [loadingCourses, setLoadingCourses] = useState<boolean>(false);
 	const [loadingUsers, setLoadingUsers] = useState<boolean>(false);
+	const [loadingRegisteredCourses, setLoadingRegisteredCourses] =
+		useState<boolean>(false);
+
+	console.log(registeredCourses);
 
 	useEffect(() => {
 		const fetchAllCourses = async () => {
@@ -86,11 +97,36 @@ const DashboardBoxes = () => {
 				setLoadingUsers(false);
 			}
 		};
+		const fetchAllRegisteredCourses = async () => {
+			try {
+				setLoadingRegisteredCourses(true);
+				const res = await axios.get(
+					`${BASE_URL}${REGISTERED_COURSES_URL}`,
+					{
+						withCredentials: true,
+					}
+				);
+
+				setRegisteredCourses(res.data);
+				setLoadingRegisteredCourses(false);
+			} catch (error: any) {
+				setLoadingRegisteredCourses(false);
+				toast({
+					variant: "destructive",
+					title: "Uh oh! Something went wrong.",
+					description: error.response.data.message,
+				});
+				router.push("/login");
+			} finally {
+				setLoadingRegisteredCourses(false);
+			}
+		};
 		fetchAllCourses();
 		fetchAllUsers();
+		fetchAllRegisteredCourses();
 	}, [toast, router, setCourses]);
 
-	if (loadingCourses || loadingUsers) return "Loading";
+	if (loadingCourses || loadingUsers) return <StepLoader />;
 
 	return (
 		<div className="pt-8">
@@ -213,7 +249,9 @@ const DashboardBoxes = () => {
 
 				<Card className="flex items-center justify-center col-span-2 hover:bg-slate-50">
 					<div className="flex w-full flex-col items-center justify-center gap-6 py-6 px-8">
-						<RegisteredCoursesAnalyticsCharts users={users} />
+						<RegisteredCoursesAnalyticsCharts
+							courses={registeredCourses}
+						/>
 					</div>
 				</Card>
 			</div>

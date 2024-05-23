@@ -80,7 +80,7 @@ const createCourse = asyncHandler(async (req: Request, res: Response) => {
 	});
 
 	if (course) {
-		res.status(201).json({ message: "Course created successfully!" });
+		res.status(201).json(course);
 	} else {
 		res.status(400);
 		throw new Error("Internal server error!");

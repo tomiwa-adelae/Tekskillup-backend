@@ -14,10 +14,12 @@ import {
 	ResponsiveContainer,
 } from "recharts";
 
-const UserAnalyticsCharts = ({ users }: any) => {
+const RegisteredCoursesAnalyticsCharts = ({ courses }: any) => {
 	// Extract dates and count occurrences
-	const dateCounts = users.reduce((acc: any, user: any) => {
-		const date = new Date(user.createdAt).toISOString().split("T")[0]; // Extract date part
+	const dateCounts = courses.reduce((acc: any, entry: any) => {
+		const date = new Date(entry.course.createdAt)
+			.toISOString()
+			.split("T")[0]; // Extract date part
 		acc[date] = (acc[date] || 0) + 1; // Count occurrences
 		return acc;
 	}, {});
@@ -56,4 +58,4 @@ const UserAnalyticsCharts = ({ users }: any) => {
 	);
 };
 
-export default UserAnalyticsCharts;
+export default RegisteredCoursesAnalyticsCharts;

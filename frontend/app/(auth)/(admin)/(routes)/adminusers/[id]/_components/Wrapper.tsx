@@ -10,6 +10,7 @@ import {
 } from "@/app/slices/constants";
 import { Separator } from "@/components/ui/separator";
 import RegisteredCourses from "./RegisteredCourses";
+import { StepLoader } from "@/components/StepLoader";
 
 interface UsersProps {
 	firstName: string;
@@ -48,7 +49,7 @@ const Wrapper = ({ id }: { id: string }) => {
 		fetchUserDetails();
 	}, [id, toast]);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <StepLoader />;
 
 	return (
 		<div>

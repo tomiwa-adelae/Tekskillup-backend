@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import MobileSideBar from "./MobileSideBar";
 import { useSelector } from "react-redux";
 import { ProfileDropDown } from "./ProfileDropDown";
+import { SheetClose } from "./ui/sheet";
 
 interface UserInfoProps {
 	firstName: string;

@@ -22,6 +22,7 @@ import axios from "axios";
 import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 const formSchema = z.object({
 	title: z
@@ -62,7 +63,7 @@ const FormBox = () => {
 				title: "Success!",
 				description: "You have successfully created a course😁",
 			});
-			router.push("/");
+			router.push(`/admincourses/${res.data._id}`);
 		} catch (error: any) {
 			setLoading(false);
 			toast({
@@ -70,13 +71,12 @@ const FormBox = () => {
 				title: "Uh oh! Something went wrong.",
 				description: error.response.data.message,
 			});
-			console.log(error);
 		} finally {
 			setLoading(false);
 		}
 	};
 	return (
-		<div className="bg-gray-50 mt-8 shadow-lg w-full md:max-w-lg p-8 rounded-lg space-y-6">
+		<Card className="bg-gray-50 mt-8 w-full md:max-w-lg p-8 space-y-6">
 			<h1 className="text-2xl md:text-3xl text-green-400">
 				Name your course
 			</h1>
@@ -127,7 +127,7 @@ const FormBox = () => {
 					</Button>
 				</form>
 			</Form>
-		</div>
+		</Card>
 	);
 };
 

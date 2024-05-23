@@ -17,7 +17,10 @@ const mailjet = Mailjet.apiConnect(
 // @access  Private/Admin
 const getRegisteredCoursesByAdmin = asyncHandler(
 	async (req: Request, res: Response) => {
-		const courses = await RegisterCourse.find().sort({ createdAt: -1 });
+		const courses = await RegisterCourse.find()
+			.sort({ createdAt: -1 })
+			.populate("course")
+			.populate("user");
 
 		res.status(200).json(courses);
 	}

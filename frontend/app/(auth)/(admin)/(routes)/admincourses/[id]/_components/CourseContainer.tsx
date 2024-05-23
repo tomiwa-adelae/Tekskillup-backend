@@ -17,6 +17,7 @@ import CourseWeekendPrice from "./CourseWeekendPrice";
 import CourseWeekdayPrice from "./CourseWeekdayPrice";
 import CourseImage from "./CourseImage";
 import { Banner } from "./Banner";
+import { StepLoader } from "@/components/StepLoader";
 
 interface CourseProps {
 	_id: string;
@@ -76,7 +77,7 @@ const CourseContainer = ({ id }: { id: string }) => {
 
 	const isComplete = requiredFields.every(Boolean);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <StepLoader />;
 
 	return (
 		<div>

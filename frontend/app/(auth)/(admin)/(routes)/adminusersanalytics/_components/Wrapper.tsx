@@ -9,6 +9,7 @@ import UserAnalyticsCharts from "./UsersAnalyticsCharts";
 import User from "./User";
 import SearchBox from "./SearchBox";
 import { Separator } from "@/components/ui/separator";
+import { StepLoader } from "@/components/StepLoader";
 
 interface Users {
 	_id: string;
@@ -54,7 +55,7 @@ const Wrapper = () => {
 		fetchAllUsers();
 	}, [toast, router, setUsers]);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <StepLoader />;
 
 	return (
 		<div className="mt-8">

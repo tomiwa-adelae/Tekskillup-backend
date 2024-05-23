@@ -59,7 +59,11 @@ const UserAnalyticsCharts = ({ users }: any) => {
 					<YAxis />
 					<Tooltip />
 					<Legend />
-					<Bar dataKey="Number" fill="#104F19" />
+					<Bar
+						dataKey="Number"
+						fill="#104F19"
+						radius={[4, 4, 0, 0]}
+					/>
 				</BarChart>
 			</ResponsiveContainer>
 		</>

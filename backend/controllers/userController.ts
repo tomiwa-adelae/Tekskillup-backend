@@ -152,8 +152,18 @@ const deleteUser = asyncHandler(async (req: Request, res: Response) => {
 			res.status(400);
 			throw new Error("You can not delete an admin!");
 		}
-		await User.deleteOne({ _id: user._id });
-		res.status(200).json({ message: "User deleted successfully!" });
+
+		if (user.imageId) {
+			await cloudinary.uploader.destroy(user.imageId, {
+				invalidate: true,
+			});
+
+			await User.deleteOne({ _id: user._id });
+			res.status(200).json({ message: "User deleted successfully!" });
+		} else {
+			await User.deleteOne({ _id: user._id });
+			res.status(200).json({ message: "User deleted successfully!" });
+		}
 	} else {
 		res.status(404);
 		throw new Error("Internal server error!");

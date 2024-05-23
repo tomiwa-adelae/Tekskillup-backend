@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { BASE_URL, COURSES_URL } from "@/app/slices/constants";
 import axios from "axios";
+import { ConfettiProvider } from "./Confetti";
 
 const CourseHeader = ({
 	id,
@@ -25,6 +26,7 @@ const CourseHeader = ({
 	const { toast } = useToast();
 
 	const [loading, setLoading] = useState<boolean>(false);
+	const [openConfetti, setOpenConfetti] = useState<boolean>(false);
 
 	const handlePublished = async () => {
 		try {
@@ -51,6 +53,9 @@ const CourseHeader = ({
 				title: "Success!",
 				description: `You have successfully ${endpoint} the course😁`,
 			});
+			if (res.data.isPublished) {
+				return setOpenConfetti(true);
+			}
 		} catch (error: any) {
 			setLoading(false);
 			toast({
@@ -65,6 +70,7 @@ const CourseHeader = ({
 
 	return (
 		<div className="my-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+			{openConfetti && <ConfettiProvider />}
 			<div className="space-y-4">
 				<h1 className="text-2xl md:text-3xl lg:text-4xl text-green-400">
 					{title}

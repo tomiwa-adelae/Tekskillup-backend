@@ -14,10 +14,12 @@ import {
 	ResponsiveContainer,
 } from "recharts";
 
-const RegisteredCoursesAnalyticsCharts = ({ users }: any) => {
+const RegisteredCoursesAnalyticsCharts = ({ courses }: any) => {
 	// Extract dates and count occurrences
-	const dateCounts = users.reduce((acc: any, user: any) => {
-		const date = new Date(user.createdAt).toISOString().split("T")[0]; // Extract date part
+	const dateCounts = courses.reduce((acc: any, entry: any) => {
+		const date = new Date(entry.course.createdAt)
+			.toISOString()
+			.split("T")[0]; // Extract date part
 		acc[date] = (acc[date] || 0) + 1; // Count occurrences
 		return acc;
 	}, {});
@@ -35,7 +37,7 @@ const RegisteredCoursesAnalyticsCharts = ({ users }: any) => {
 					Registered courses analytics
 				</h4>
 				<Button className="uppercase" variant="ghost" asChild>
-					<Link href="/adminusersanalytics">Expand</Link>
+					<Link href="/adminregisteredcoursesanalytics">Expand</Link>
 				</Button>
 			</div>
 			<ResponsiveContainer width="100%" height={400}>
@@ -59,7 +61,11 @@ const RegisteredCoursesAnalyticsCharts = ({ users }: any) => {
 					<YAxis />
 					<Tooltip />
 					<Legend />
-					<Bar dataKey="Number" fill="#104F19" />
+					<Bar
+						dataKey="Number"
+						fill="#104F19"
+						radius={[4, 4, 0, 0]}
+					/>
 				</BarChart>
 			</ResponsiveContainer>
 		</>

@@ -37,12 +37,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
-import { logout } from "@/app/slices/authSlice";
+import { logout, setCredentials } from "@/app/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { useToast } from "./ui/use-toast";
 import axios from "axios";
 import { BASE_URL, USERS_URL } from "@/app/slices/constants";
 import { useRouter } from "next/navigation";
+import { SheetTrigger } from "./ui/sheet";
 
 export function MobileProfileDropDown({
 	firstName,
@@ -60,9 +61,21 @@ export function MobileProfileDropDown({
 	const dispatch = useDispatch();
 	const handleLogout = async () => {
 		try {
-			await axios.post(`${BASE_URL}${USERS_URL}/logout`);
+			await axios.post(`${BASE_URL}${USERS_URL}/logout`, {
+				withCredentials: true,
+			});
 			dispatch(logout({ message: "logout" }));
+			dispatch(setCredentials(null));
+			toast({
+				// variant: "",
+				title: "Successful",
+				description: "You have successfully logged out",
+			});
+
 			router.push("/login");
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
 		} catch (error: any) {
 			toast({
 				variant: "destructive",
@@ -93,43 +106,53 @@ export function MobileProfileDropDown({
 			<DropdownMenuContent className="w-screen mx-4 md:mx-0 md:w-72">
 				<DropdownMenuLabel>My Account</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<Link href="/profile">
-					<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-						<User className="mr-2 h-4 w-4" />
-						<span>My Profile</span>
-					</DropdownMenuItem>
-				</Link>
-				<DropdownMenuSeparator />
-				<Link href="/editprofile">
-					<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-						<Pencil className="mr-2 h-4 w-4" />
-						<span>Edit Profile</span>
-					</DropdownMenuItem>
-				</Link>
-				<DropdownMenuSeparator />
-				<Link href="/changepassword">
-					<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-						<LockKeyhole className="mr-2 h-4 w-4" />
-						<span>Change password</span>
-					</DropdownMenuItem>
-				</Link>
-				<DropdownMenuSeparator />
-				{isAdmin && (
-					<Link href="/admindashboard">
+				<SheetTrigger asChild>
+					<Link href="/profile">
 						<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
-							<LayoutDashboard className="mr-2 h-4 w-4" />
-							<span>Admin dashboard</span>
+							<User className="mr-2 h-4 w-4" />
+							<span>My Profile</span>
 						</DropdownMenuItem>
 					</Link>
+				</SheetTrigger>
+				<DropdownMenuSeparator />
+				<SheetTrigger asChild>
+					<Link href="/editprofile">
+						<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+							<Pencil className="mr-2 h-4 w-4" />
+							<span>Edit Profile</span>
+						</DropdownMenuItem>
+					</Link>
+				</SheetTrigger>
+				<DropdownMenuSeparator />
+				<SheetTrigger asChild>
+					<Link href="/changepassword">
+						<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+							<LockKeyhole className="mr-2 h-4 w-4" />
+							<span>Change password</span>
+						</DropdownMenuItem>
+					</Link>
+				</SheetTrigger>
+				<DropdownMenuSeparator />
+				{isAdmin && (
+					<SheetTrigger asChild>
+						<Link href="/admindashboard">
+							<DropdownMenuItem className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100">
+								<LayoutDashboard className="mr-2 h-4 w-4" />
+								<span>Admin dashboard</span>
+							</DropdownMenuItem>
+						</Link>
+					</SheetTrigger>
 				)}
 				<DropdownMenuSeparator />
-				<DropdownMenuItem
-					onClick={handleLogout}
-					className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100"
-				>
-					<LogOut className="mr-2 h-4 w-4" />
-					<span>Log out</span>
-				</DropdownMenuItem>
+				<SheetTrigger asChild>
+					<DropdownMenuItem
+						onClick={handleLogout}
+						className="transition ease-in-out cursor-pointer py-4 hover:bg-gray-100"
+					>
+						<LogOut className="mr-2 h-4 w-4" />
+						<span>Log out</span>
+					</DropdownMenuItem>
+				</SheetTrigger>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

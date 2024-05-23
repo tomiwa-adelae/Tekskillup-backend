@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 
 interface CourseProps {
 	id: string;
@@ -12,7 +13,7 @@ interface CourseProps {
 	image: string;
 	onlinePrice: number;
 	weekendPrice: number;
-	weekdaysPrice: number;
+	weekdayPrice: number;
 	isPublished: boolean;
 }
 
@@ -21,12 +22,12 @@ const Course = ({
 	title,
 	onlinePrice,
 	weekendPrice,
-	weekdaysPrice,
+	weekdayPrice,
 	image,
 	isPublished,
 }: CourseProps) => {
 	return (
-		<div className="bg-gray-50 py-6 px-8 space-y-4 rounded-xl shadow-lg transition-all ease-in-out relative">
+		<Card className="bg-gray-50 py-6 px-8 space-y-4 transition-all ease-in-out relative">
 			<Badge
 				className={cn(
 					"absolute top-3 right-3 bg-slate-500 text-white",
@@ -55,8 +56,8 @@ const Course = ({
 				)}
 			</h5>
 			<h5 className="text-sm">
-				{weekdaysPrice ? (
-					<>Weekdays price: #{weekdaysPrice}</>
+				{weekdayPrice ? (
+					<>Weekdays price: #{weekdayPrice}</>
 				) : (
 					<p className="text-xs md:text-sm italic">
 						No weekdays price
@@ -78,7 +79,7 @@ const Course = ({
 					View details
 				</Link>
 			</Button>
-		</div>
+		</Card>
 	);
 };
 
