@@ -72,3 +72,13 @@ export const updateNewPasswordValidator = [
 		.notEmpty()
 		.withMessage("Confirm password is required!"),
 ];
+
+export const contactFormValidator = [
+	body("name").notEmpty().withMessage("Name is required!"),
+	body("email").trim().isEmail().withMessage("Email is required"),
+	body("subject").notEmpty().withMessage("Subject is required!"),
+	body("message").notEmpty().withMessage("Subject is required!"),
+	body("phoneNumber")
+		.isLength({ min: 11, max: 11 })
+		.withMessage("Valid phone number is required!"),
+];
