@@ -6,13 +6,15 @@ const generateToken = (res: Response, userId: object) => {
 		expiresIn: "14d",
 	});
 
-	res.cookie("jwt", token, {
-		httpOnly: true,
-		// secure: process.env.NODE_ENV! !== "development",
-		secure: true,
-		sameSite: "none",
-		maxAge: 14 * 24 * 60 * 60 * 1000,
-	});
+	return token;
+
+	// res.cookie("jwt", token, {
+	// 	httpOnly: true,
+	// 	// secure: process.env.NODE_ENV! !== "development",
+	// 	secure: true,
+	// 	sameSite: "none",
+	// 	maxAge: 14 * 24 * 60 * 60 * 1000,
+	// });
 };
 
 export default generateToken;

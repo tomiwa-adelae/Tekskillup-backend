@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 	});
 
 	if (user) {
-		generateToken(res, user._id);
+		const token = generateToken(res, user._id);
 
 		res.status(201).json({
 			_id: user._id,
@@ -48,6 +48,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 			phoneNumber: user.phoneNumber,
 			image: user.image,
 			isAdmin: user.isAdmin,
+			token,
 		});
 	} else {
 		res.status(400);
@@ -64,7 +65,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
 	const user = await User.findOne({ email });
 	// @ts-ignore
 	if (user && (await user.matchPassword(password))) {
-		generateToken(res, user._id);
+		const token = generateToken(res, user._id);
 		res.status(201).json({
 			_id: user._id,
 			firstName: user.firstName,
@@ -74,6 +75,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
 			phoneNumber: user.phoneNumber,
 			image: user.image,
 			isAdmin: user.isAdmin,
+			token,
 		});
 	} else {
 		res.status(400);
@@ -120,18 +122,6 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
 // @route   GET /api/users/:id
 // @access  Private/Admin
 const getUserById = asyncHandler(async (req: Request, res: Response) => {
-	// const user = await User.findById(req.params.id)
-	// 	.sort({ createdAt: -1 })
-	// 	.select("-password");
-
-	// if (user) {
-	// 	res.status(200).json(user);
-	// } else {
-	// 	res.status(400);
-	// 	throw new Error("Internal server error!");
-	// }
-
-	// res.status(200).json(user);
 	const user = await User.findById(req.params.id).select("-password");
 	if (user) {
 		res.json(user);
@@ -185,6 +175,7 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 		user.image = user.image;
 
 		const updatedUser = await user.save();
+		const token = generateToken(res, user._id);
 
 		res.json({
 			_id: updatedUser._id,
@@ -195,6 +186,7 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
 			phoneNumber: updatedUser.phoneNumber,
 			image: updatedUser.image,
 			isAdmin: updatedUser.isAdmin,
+			token,
 		});
 	} else {
 		res.status(404);
@@ -404,7 +396,19 @@ const uploadProfileImage = asyncHandler(async (req: Request, res: Response) => {
 
 			const updatedUser = await user.save();
 
-			res.status(200).json(updatedUser);
+			const token = generateToken(res, updatedUser._id);
+
+			res.json({
+				_id: updatedUser._id,
+				firstName: updatedUser.firstName,
+				lastName: updatedUser.lastName,
+				email: updatedUser.email,
+				bio: updatedUser.bio,
+				phoneNumber: updatedUser.phoneNumber,
+				image: updatedUser.image,
+				isAdmin: updatedUser.isAdmin,
+				token,
+			});
 		} else {
 			const uploadResponse = await cloudinary.uploader.upload(image, {
 				upload_preset: "tekskillup",
@@ -415,7 +419,19 @@ const uploadProfileImage = asyncHandler(async (req: Request, res: Response) => {
 
 			const updatedUser = await user.save();
 
-			res.status(200).json(updatedUser);
+			const token = generateToken(res, updatedUser._id);
+
+			res.json({
+				_id: updatedUser._id,
+				firstName: updatedUser.firstName,
+				lastName: updatedUser.lastName,
+				email: updatedUser.email,
+				bio: updatedUser.bio,
+				phoneNumber: updatedUser.phoneNumber,
+				image: updatedUser.image,
+				isAdmin: updatedUser.isAdmin,
+				token,
+			});
 		}
 	} else {
 		res.status(400);

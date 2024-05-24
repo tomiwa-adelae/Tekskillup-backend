@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // API Routes
 app.use("/api/courses", courseRoutes);

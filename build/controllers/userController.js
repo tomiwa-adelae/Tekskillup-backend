@@ -31,7 +31,7 @@ const registerUser = (0, asyncHandler_1.default)(async (req, res) => {
         password,
     });
     if (user) {
-        (0, generateToken_1.default)(res, user._id);
+        const token = (0, generateToken_1.default)(res, user._id);
         res.status(201).json({
             _id: user._id,
             firstName: user.firstName,
@@ -41,6 +41,7 @@ const registerUser = (0, asyncHandler_1.default)(async (req, res) => {
             phoneNumber: user.phoneNumber,
             image: user.image,
             isAdmin: user.isAdmin,
+            token,
         });
     }
     else {
@@ -57,7 +58,7 @@ const loginUser = (0, asyncHandler_1.default)(async (req, res) => {
     const user = await userModel_1.default.findOne({ email });
     // @ts-ignore
     if (user && (await user.matchPassword(password))) {
-        (0, generateToken_1.default)(res, user._id);
+        const token = (0, generateToken_1.default)(res, user._id);
         res.status(201).json({
             _id: user._id,
             firstName: user.firstName,
@@ -67,6 +68,7 @@ const loginUser = (0, asyncHandler_1.default)(async (req, res) => {
             phoneNumber: user.phoneNumber,
             image: user.image,
             isAdmin: user.isAdmin,
+            token,
         });
     }
     else {
@@ -113,16 +115,6 @@ exports.getUsers = getUsers;
 // @route   GET /api/users/:id
 // @access  Private/Admin
 const getUserById = (0, asyncHandler_1.default)(async (req, res) => {
-    // const user = await User.findById(req.params.id)
-    // 	.sort({ createdAt: -1 })
-    // 	.select("-password");
-    // if (user) {
-    // 	res.status(200).json(user);
-    // } else {
-    // 	res.status(400);
-    // 	throw new Error("Internal server error!");
-    // }
-    // res.status(200).json(user);
     const user = await userModel_1.default.findById(req.params.id).select("-password");
     if (user) {
         res.json(user);
@@ -174,6 +166,7 @@ const updateUserProfile = (0, asyncHandler_1.default)(async (req, res) => {
         user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
         user.image = user.image;
         const updatedUser = await user.save();
+        const token = (0, generateToken_1.default)(res, user._id);
         res.json({
             _id: updatedUser._id,
             firstName: updatedUser.firstName,
@@ -183,6 +176,7 @@ const updateUserProfile = (0, asyncHandler_1.default)(async (req, res) => {
             phoneNumber: updatedUser.phoneNumber,
             image: updatedUser.image,
             isAdmin: updatedUser.isAdmin,
+            token,
         });
     }
     else {
@@ -373,7 +367,18 @@ const uploadProfileImage = (0, asyncHandler_1.default)(async (req, res) => {
             user.image = uploadResponse.url;
             user.imageId = uploadResponse.public_id;
             const updatedUser = await user.save();
-            res.status(200).json(updatedUser);
+            const token = (0, generateToken_1.default)(res, updatedUser._id);
+            res.json({
+                _id: updatedUser._id,
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                email: updatedUser.email,
+                bio: updatedUser.bio,
+                phoneNumber: updatedUser.phoneNumber,
+                image: updatedUser.image,
+                isAdmin: updatedUser.isAdmin,
+                token,
+            });
         }
         else {
             const uploadResponse = await cloudinaryMiddleware_1.default.uploader.upload(image, {
@@ -382,7 +387,18 @@ const uploadProfileImage = (0, asyncHandler_1.default)(async (req, res) => {
             user.image = uploadResponse.url;
             user.imageId = uploadResponse.public_id;
             const updatedUser = await user.save();
-            res.status(200).json(updatedUser);
+            const token = (0, generateToken_1.default)(res, updatedUser._id);
+            res.json({
+                _id: updatedUser._id,
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                email: updatedUser.email,
+                bio: updatedUser.bio,
+                phoneNumber: updatedUser.phoneNumber,
+                image: updatedUser.image,
+                isAdmin: updatedUser.isAdmin,
+                token,
+            });
         }
     }
     else {
