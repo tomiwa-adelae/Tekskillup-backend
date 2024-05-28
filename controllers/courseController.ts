@@ -125,6 +125,7 @@ const createCourseLesson = asyncHandler(async (req: Request, res: Response) => {
 
 	const course = await Course.findById(req.params.id);
 
+
 	if (course) {
 		const lesson = {
 			content,
